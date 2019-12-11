@@ -322,9 +322,9 @@ export curr_date="${SYEAR},${SMONTH},${SDAY},${SHOUR},0,0"
 export restart_secs=${restart_secs:-0}
 
 # copy over the tables
-export DIAG_TABLE=${DIAG_TABLE:-$PARM_FV3DIAG/diag_table}
-export DATA_TABLE=${DATA_TABLE:-$PARM_FV3DIAG/data_table}
-export FIELD_TABLE=${FIELD_TABLE:-$PARM_FV3DIAG/field_table}
+export DIAG_TABLE=${DIAG_TABLE:-$PARM_FV3DIAG/diag_table$MULTI_GASES}
+export DATA_TABLE=${DATA_TABLE:-$PARM_FV3DIAG/data_table$MULTI_GASES}
+export FIELD_TABLE=${FIELD_TABLE:-$PARM_FV3DIAG/field_table$MULTI_GASES}
 
 # build the diag_table with the experiment name and date stamp
 cat > diag_table << EOF
@@ -335,6 +335,7 @@ cat $DIAG_TABLE >> diag_table
 
 $NCP $DATA_TABLE data_table
 $NCP $FIELD_TABLE field_table
+$NCP $CCPP_SUITE .
 
 #------------------------------------------------------------------
 cat > nems.configure <<EOF
@@ -402,6 +403,7 @@ cat > input.nml <<EOF
   blocksize = $blocksize
   chksum_debug = $chksum_debug
   dycore_only = $dycore_only
+  ccpp_suite = 'FV3_GFS_v15'
   fdiag = ${fdiag:-$FHOUT}
 /
 
@@ -491,6 +493,19 @@ cat > input.nml <<EOF
   z_tracer = .true.
   read_increment = $read_increment
   res_latlon_dynamics = $res_latlon_dynamics
+/
+
+&multi_gases_nml
+  rilist = ${RI_LIST:-"287.05,461.50"}
+  cpilist = ${CPI_LIST:-"1004.675,1846.0"}
+/
+
+&molecular_diffusion_nml
+  tau_visc = ${tau_visc:-0.0}
+  tau_cond = ${tau_cond:-0.0}
+  tau_diff = ${tau_diff:-0.0}
+  md_impl  = ${md_impl:-0}
+  md_wait_hr  = ${md_wait_hr:-0.0}
 /
 
 &external_ic_nml
