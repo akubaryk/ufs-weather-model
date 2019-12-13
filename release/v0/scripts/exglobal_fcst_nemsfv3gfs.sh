@@ -403,7 +403,7 @@ cat > input.nml <<EOF
   blocksize = $blocksize
   chksum_debug = $chksum_debug
   dycore_only = $dycore_only
-  ccpp_suite = 'FV3_GFS_v15'
+  ccpp_suite = 'FV3_GFS_v15plus'
   fdiag = ${fdiag:-$FHOUT}
 /
 
