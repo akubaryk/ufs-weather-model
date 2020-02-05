@@ -37,6 +37,11 @@ export FHMAX=${FHMAX:-240}
 export FHOUT=${FHOUT:-3}
 export FHZER=${FHZER:-6}
 export FHCYC=${FHCYC:-24}
+export FHMAX_HF=${FHMAX_HF:-0}
+export FHOUT_HF=${FHOUT_HF:-1}
+export NSOUT=${NSOUT:-"-1"}
+export FDIAG=$FHOUT
+if [ $FHMAX_HF -gt 0 -a $FHOUT_HF -gt 0 ]; then FDIAG=$FHOUT_HF; fi
 
 # Directories.
 export PTMP=${PTMP:-/gpfs/hps/ptmp}
@@ -62,6 +67,7 @@ export NLN=${NLN:-"/bin/ln -sf"}
 export SEND=${SEND:-"YES"}   #move final result to rotating directory
 export ERRSCRIPT=${ERRSCRIPT:-'eval [[ $err = 0 ]]'}
 export NDATE=${NDATE:-$NWPROD/util/exec/ndate}
+export KEEPDATA=${KEEPDATA:-"NO"}
 
 # Other options
 export MEMBER=${MEMBER:-"-1"} # -1: control, 0: ensemble mean, >0: ensemble member $MEMBER
@@ -99,15 +105,17 @@ else
 fi
 yyyymmdd=`echo $CDATE | cut -c1-8`
 hh=`echo       $CDATE | cut -c9-10`
-MEMDIR=$ROTDIR/${PREINP}.$yyyymmdd/$hh/$MEMCHAR
+export MEMDIR=$ROTDIR/${PREINP}.$yyyymmdd/$hh/$MEMCHAR
 if [ ! -d $MEMDIR ]; then mkdir -p $MEMDIR; fi
 
 #-------------------------------------------------------
 # initial conditions
 export warm_start=${warm_start:-".false."}
 if [ $warm_start = ".false." ]; then
- if [ -d $IC_DIR/${CASE}_$CDATE ]; then
-  $NCP $IC_DIR/${CASE}_$CDATE/* $DATA/INPUT/.
+#if [ -d $IC_DIR/${CASE}_$CDATE ]; then
+# $NCP $IC_DIR/${CASE}_$CDATE/* $DATA/INPUT/.
+ if [ -d $IC_DIR/IDVT$IDVT/L$LEVS/CASE_${CASE} ]; then
+  $NCP $IC_DIR/IDVT$IDVT/L$LEVS/CASE_${CASE}/* $DATA/INPUT/.
  else
   for file in $MEMDIR/INPUT/*.nc; do
     file2=$(echo $(basename $file))
@@ -146,6 +154,16 @@ for n in `seq 1 $ntiles`; do
 done
 $NLN $FIX_FV3/$CASE/${CASE}_mosaic.nc  $DATA/INPUT/grid_spec.nc
 
+#--------------------------------------------------------------------------
+# Output files
+for n in `seq 1 $ntiles`; do
+  $NLN $MEMDIR/atmos_static.tile${n}.nc  $DATA/.
+  $NLN $MEMDIR/atmos_4xdaily.tile${n}.nc $DATA/.
+  $NLN $MEMDIR/grid_spec.tile${n}.nc     $DATA/.
+  $NLN $MEMDIR/nggps2d.tile${n}.nc       $DATA/.
+  $NLN $MEMDIR/nggps3d.tile${n}.nc       $DATA/.
+done
+
 # GFS standard input data
 export iems=${iems:-1}
 export isol=${isol:-2}
@@ -153,7 +171,7 @@ export iaer=${iaer:-111}
 export ico2=${ico2:-2}
 
 $NLN $FIX_AM/global_solarconstant_noaa_an.txt  $DATA/solarconstant_noaa_an.txt
-$NLN $FIX_AM/global_o3prdlos.f77               $DATA/INPUT/global_o3prdlos.f77
+#NLN $FIX_AM/global_o3prdlos.f77               $DATA/INPUT/global_o3prdlos.f77
 $NLN $FIX_AM/global_sfc_emissivity_idx.txt     $DATA/sfc_emissivity_idx.txt
 
 $NLN $FIX_AM/global_co2historicaldata_glob.txt $DATA/co2historicaldata_glob.txt
@@ -346,10 +364,11 @@ cat > nems.configure <<EOF
  ::
 
 EOF
-
+if [ $VERBOSE = YES ] ; then cat nems.configure ; fi
 
 cat > model_configure <<EOF
   total_member:            $ENS_NUM
+  print_esmf:              ${print_esmf:-".true."}
   PE_MEMBER01:             $tasks
   start_year:              $SYEAR
   start_month:             $SMONTH
@@ -368,9 +387,11 @@ cat > model_configure <<EOF
   use_hyper_thread:        ${hyperthread:-".false."}
   ncores_per_node:         $cores_per_node
   restart_interval:        ${restart_interval:-0}
-  
+  cpl:                     .false. 
   quilting:                .false.
+  output_1st_tstep_rst:    .false.
 EOF
+if [ $VERBOSE = YES ] ; then cat model_configure ; fi
 
 #&coupler_nml
 #  months = ${months:-0}
@@ -388,6 +409,9 @@ EOF
 #/
 
 
+# ----- move following back into atmos_model_nml while CCPP is on -----
+# ccpp_suite = 'FV3_GFS_v15plus'
+# -------------------------------------------------------------------
 
 cat > input.nml <<EOF
 &amip_interp_nml
@@ -403,7 +427,6 @@ cat > input.nml <<EOF
   blocksize = $blocksize
   chksum_debug = $chksum_debug
   dycore_only = $dycore_only
-  ccpp_suite = 'FV3_GFS_v15plus'
   fdiag = ${fdiag:-$FHOUT}
 /
 
@@ -434,6 +457,7 @@ cat > input.nml <<EOF
   npy = $npy
   ntiles = $ntiles
   npz = $npz
+  ncnst = ${ncnst:-0}
   grid_type = -1
   make_nh = $make_nh
   fv_debug = ${fv_debug:-".false."}
@@ -441,14 +465,15 @@ cat > input.nml <<EOF
   reset_eta = .false.
   n_sponge = ${n_sponge:-24}
   nudge_qv = ${nudge_qv:-".true."}
-  tau = 5.
-  rf_cutoff = 7.5e2
-  d2_bg_k1 = 0.15
-  d2_bg_k2 = 0.02
-  kord_tm = -9
-  kord_mt = 9
-  kord_wz = 9
-  kord_tr = 9
+  nudge_dz = ${nudge_dz:-".false."}
+  tau = ${tau:-5.}
+  rf_cutoff = ${rf_cutoff:-7.5e2}
+  d2_bg_k1 = ${d2_bg_k1:-0.15}
+  d2_bg_k2 = ${d2_bg_k2:-0.02}
+  kord_tm = ${kord_tm:-"-9"}
+  kord_mt = ${kord_mt:-"9"}
+  kord_wz = ${kord_wz:-"9"}
+  kord_tr = ${kord_tr:-"9"}
   hydrostatic = $hydrostatic
   phys_hydrostatic = $phys_hydrostatic
   use_hydro_pressure = $use_hydro_pressure
@@ -457,32 +482,33 @@ cat > input.nml <<EOF
   p_fac = 0.1
   k_split = $k_split
   n_split = $n_split
-  nwat = 2
+  nwat = ${nwat:-2}
   na_init = $na_init
   d_ext = 0.
-  dnats = 0
-  fv_sg_adj = 450
-  d2_bg = 0.
-  nord = 2
-  dddmp = 0.1
-  d4_bg = 0.12
-  vtdm4 = $vtdm4
-  delt_max = 0.002
-  ke_bg = 0.
-  do_vort_damp = $do_vort_damp
+  dnats = ${dnats:-0}
+  fv_sg_adj = ${fv_sg_adj:-450}
+  d2_bg = ${d2_bg:-0.}
+  nord = ${nord:-3}
+  dddmp = ${ddmp:-0.2}
+  d4_bg = ${d4_bg:-0.15}
+  vtdm4 = ${VTDM4:-$vtdm4}
+  delt_max = ${delt_max:-"0.002"}
+  ke_bg = ${ke_bg:-0.}
+  do_vort_damp = ${DO_VORT_DAMP:-$do_vort_damp}
   external_ic = $external_ic
-  external_eta = $external_eta
-  gfs_phil = $gfs_phil
+  external_eta = ${external_eta:-.true.}
+  gfs_phil = ${gfs_phil:-".false."}
   nggps_ic = ${nggps_ic:-".true."}
   mountain = $mountain
   ncep_ic = ${ncep_ic:-".false."}
-  d_con = $d_con
+  d_con = ${D_CON:-$d_con}
   hord_mt = $hord_mt
   hord_vt = $hord_xx
   hord_tm = $hord_xx
   hord_dp = $hord_xx
-  hord_tr = 8
-  adjust_dry_mass = .false.
+  hord_tr = ${hord_tr:-"8"}
+  adjust_dry_mass = ${adjust_dry_mass:-".false."}
+  do_sat_adj = ${do_sat_adj:-".false."}
   consv_te = $consv_te
   consv_am = .false.
   fill = .true.
@@ -504,7 +530,7 @@ cat > input.nml <<EOF
   tau_visc = ${tau_visc:-0.0}
   tau_cond = ${tau_cond:-0.0}
   tau_diff = ${tau_diff:-0.0}
-  md_impl  = ${md_impl:-0}
+  md_impl     = ${md_impl:-0}
   md_wait_hr  = ${md_wait_hr:-0.0}
 /
 
@@ -557,6 +583,7 @@ cat > input.nml <<EOF
   iau_delthrs    = ${iau_delthrs:-0}
   iaufhrs        = ${iaufhrs:-0}
   iau_inc_files  = ${iau_inc_files:-"''"}
+  levr           = ${levr:-90}
 /
 
 &interpolator_nml
@@ -591,20 +618,37 @@ cat > input.nml <<EOF
   FSMCL(4) = 99999
   FTSFS = 90
   FAISS = 99999
+  FAISL = ${FAISL:-99999}
   FSNOL = 99999
+  FSNOS = ${FSNOS:-99999}
   FSICL = 99999
   FTSFL = 99999
-  FAISL = 99999
   FVETL = 99999
   FSOTL = 99999
   FvmnL = 99999
   FvmxL = 99999
   FSLPL = 99999
   FABSL = 99999
-  FSNOS = 99999
   FSICS = 99999
 /
-
+&sat_vapor_pres_nml
+  use_exact_qs = ${use_exact_qs:-.false.}
+  show_all_bad_values=${show_all_bad_values:-.false.}
+/
+&cires_ugwp_nml
+   knob_ugwp_solver  = 2
+   knob_ugwp_source  = 1,1,0,0
+   knob_ugwp_wvspec  = 1,25,25,25
+   knob_ugwp_azdir   = 2,4,4,4
+   knob_ugwp_stoch   = 0,0,0,0
+   knob_ugwp_effac   = 1,1,1,1
+   knob_ugwp_doaxyz  = 1
+   knob_ugwp_doheat  = 1
+   knob_ugwp_dokdis  = 1
+   knob_ugwp_ndx4lh  = 1
+   knob_ugwp_version = 0
+   launch_level      = 25
+/
 EOF
 
 # Add namelist for stochastic physics options for ensemble member forecast
@@ -649,6 +693,7 @@ cat >> input.nml << EOF
 EOF
 fi
 
+if [ $VERBOSE = YES ] ; then cat input.nml ; fi
 #------------------------------------------------------------------
 # run the executable
 cd $DATA

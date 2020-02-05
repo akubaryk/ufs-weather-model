@@ -65,14 +65,15 @@ else
 fi
 
 # set other options
-ccpp_option="CCPP=Y HYBRID=N STATIC=Y SUITES=FV3_GFS_v15plus"
-mode="ccpp"
-#multi_gases_option="MULTI_GASES=Y" ; mode=$mode"-MG"
+
+#ccpp_option="CCPP=Y HYBRID=N STATIC=Y SUITES=FV3_GFS_v15plus" ;  mode=$mode"ccpp"
+ ccpp_option=""
+ multi_gases_option="MULTI_GASES=Y" ; mode=$mode"MG"
 #multi_gases_option="MULTI_GASES=N"
-#molecular_diffusion_option="MOLECULAR_DIFFUSION=Y" ; mode=$mode"-MD"
-#molecular_diffusion_option="MOLECULAR_DIFFUSION=N"
-extra_options="$multi_gases_option $molecular_diffusion_option $ccpp_option"
-echo $mode
+#molecular_diffusion_option="MOLECULAR_DIFFUSION=Y" ; mode=$mode"MD"
+ molecular_diffusion_option="MOLECULAR_DIFFUSION=N"
+ extra_options="$multi_gases_option $molecular_diffusion_option $ccpp_option"
+ echo $mode
 
 # 32-bit non-hydrostatic
 #precision_option="32BIT=Y"
@@ -80,7 +81,7 @@ echo $mode
 #hydro_option="HYDRO=N"
 #hydro="nh"
 #compile_option="$debug_compile_option $openmp_compile_option $hydro_option $precision_option $extra_options "
-#./compile.sh $homedir/FV3 $arch "$compile_option" 1
+#./compile.sh $homedir/FV3 $arch "$compile_option" 1 YES NO
 #cp $homedir/tests/fv3_1.exe ../NEMS/exe/fv3_gfs_${hydro}.${mode}.${precision}.${compiler}.x
 #rm $homedir/tests/fv3_1.exe
 
@@ -90,7 +91,7 @@ echo $mode
 #hydro_option="HYDRO=Y"
 #hydro="hydro"
 #compile_option="$debug_compile_option $openmp_compile_option $hydro_option $precision_option $extra_options "
-#./compile.sh $homedir/FV3 $arch "$compile_option" 1
+#./compile.sh $homedir/FV3 $arch "$compile_option" 1 YES NO
 #cp $homedir/tests/fv3_1.exe ../NEMS/exe/fv3_gfs_${hydro}.${mode}.${precision}.${compiler}.x
 #rm $homedir/tests/fv3_1.exe
 
@@ -100,6 +101,8 @@ echo $mode
  hydro_option="HYDRO=N"
  hydro="nh"
  compile_option="$debug_compile_option $openmp_compile_option $hydro_option $precision_option $extra_options "
+#./compile.sh $homedir/FV3 $arch "$compile_option" 1 YES NO
+#./compile.sh $homedir/FV3 $arch "$compile_option" 1 YES YES
  ./compile.sh $homedir/FV3 $arch "$compile_option" 1
  cp $homedir/tests/fv3_1.exe ../NEMS/exe/fv3_gfs_${hydro}.${mode}.${precision}.${compiler}.x
  rm $homedir/tests/fv3_1.exe
@@ -110,6 +113,6 @@ echo $mode
 #hydro_option="HYDRO=Y"
 #hydro="hydro"
 #compile_option="$debug_compile_option $openmp_compile_option $hydro_option $precision_option $extra_options "
-#./compile.sh $homedir/FV3 $arch "$compile_option" 1
+#./compile.sh $homedir/FV3 $arch "$compile_option" 1 YES NO
 #cp $homedir/tests/fv3_1.exe ../NEMS/exe/fv3_gfs_${hydro}.${mode}.${precision}.${compiler}.x
 #rm $homedir/tests/fv3_1.exe

@@ -9,14 +9,14 @@ export ACCT_DISK=global           # storage account name 'swpc' 'global'
 export ACCT_SCRATCH=scratch1    # scratch space
 export ACCT_SLURM=nems            # compute account name 'fv3-cpu' 'nems'
 export QUEUE=batch             # batch, debug, etc.
-export WALLCLOCK=01:00:00       # wall clock time
+export WALLCLOCK=00:30:00       # wall clock time
 # configuration
 export LEVS=150        # 64? 150? 128? 65?
 export PSLOT=MGMD_physicsL150 # user-defined experiment name
 export CASE=C96         # cubed-sphere resolution, C96 currently only tested
 export CDATE=2017011906 # initial condition datetime
 export FHMAX=240         # length of free forecast (hours)
-export FHMAX=360           # length of free forecast (hours)
+export FHMAX=120           # length of free forecast (hours)
 export FHOUT=1         # forecast output frequency (hours)
 # user configurable directories (dir.config)
 export IC_DIR=/$ACCT_SCRATCH/NCEPDEV/$ACCT_DISK/$USER/ICS/fv3/${CDATE} # forecast initial conditions (fv3, nemsio w/ NSST)
@@ -26,8 +26,7 @@ export BASE_GSM=/scratch1/NCEPDEV/swpc/save/Adam.Kubaryk/fv3                    
 export MODE=64bit       # dycore precision:   32bit, 64bit
 export TYPE=nh          # hydrostatic option: nh, hydro
 #export COMP=prod                   # compiling mode:     debug, repro, prod
-export COMP=multi_gases-molecular_diffusion            # compiling mode:     debug, repro, prod
-#export COMP=multi_gases_test       # compiling mode:     debug, repro, prod
+ export COMP=prodMGMD
 export HYPT=on          # hyperthreading:     on, off
 export mpiexec=`which mpirun`
 # post processing (stitch 6-tile grids into global netcdf, remap.config)
@@ -35,6 +34,7 @@ export REMAP=YES        # YES or NO
 
 # namelist options can go below
 export DELTIM=225
+# ---- adiabatic run -------------------
 #export adiabatic=.true.
 #export dycore_only=.true.
 #export do_sat_adj=.false.
@@ -50,11 +50,6 @@ export DELTIM=225
  export DO_VORT_DAMP=.true.
  export D_CON=1.
 #### Sponge layer and Rayleigigh damping
-#### negative tau is for GSM type of Rayleigh
-#export tau=0.022
-#export tau=0.015
-#export tau=0.100
-#export tau=0.200
  export tau=0.300
  export rf_cutoff=2.e2
  export n_sponge=-1
@@ -63,33 +58,23 @@ export DELTIM=225
  export fv_sg_adj=1800
 
 ##### molecular diffusion efolding day
-##### positive in effect of day, 0.0 means off,
-### work with tau=0.2, 0.3
-##### -1.0 means no efolding but max effect
  export md_impl=0
  export md_wait_hr=2.0
  export tau_visc=0.50
  export tau_cond=0.50
  export tau_diff=0.50
 
-### tau=0.2
-###### 0.00025 close to -0.050  ####### X after  46800
-###### 0.0012  close to -0.010  ####### OK with tau=0.2
-###### 0.0025  close to -0.005  ####### X after 356400
-###### 0.005   close to -0.0025 ####### X after 136800
-### tau=0.3
-###### 0.0008  close to -0.015  ####### OK with tau=0.3
-###### 0.0006  close to -0.020  ####### X after 363600
-###### 0.0003  close to -0.040  ####### X after 122400
 #export md_impl=1
 #export tau_visc=0.0145  
 #export tau_cond=0.0145
 #export tau_diff=0.0145
 
-  export levr=90
+# ---- turn on for L150 
+ export levr=90
+
 #export CHGRES_ONLY=YES
  export IDVT=200
- export NTRAC=5
+ export NTRAC=10
  export ncnst=$NTRAC
 
 #### defult           air   sphum
