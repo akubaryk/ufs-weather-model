@@ -5,18 +5,27 @@ export machine=theia    # theia, WCOSS_C, etc.
 
 ## experiment settings
 # user configuration
-export ACCT_DISK=global           # storage account name 'swpc' 'global'
-export ACCT_SCRATCH=scratch1    # scratch space
-export ACCT_SLURM=nems            # compute account name 'fv3-cpu' 'nems'
-export QUEUE=batch             # batch, debug, etc.
-export WALLCLOCK=00:30:00       # wall clock time
+export ACCT_DISK=global        # storage account name 'swpc' 'global'
+export ACCT_SCRATCH=scratch1   # scratch space
+export ACCT_SLURM=fv3-cpu      # compute account name 'fv3-cpu' 'nems'
+export QUEUE=debug             #batch             # batch, debug, etc.
+#export WALLCLOCK=00:30:00      # wall clock time
+export WALLCLOCK=00:20:00      # wall clock time
 # configuration
-export LEVS=150        # 64? 150? 128? 65?
-export PSLOT=CCPP_physicsL150 # user-defined experiment name
+#export LEVS=64        # 64? 150? 128? 65?
+#export LEVS=150        # 64? 150? 128? 65?
+export LEVS=128        # 64? 150? 128? 65?
+#export PSLOT=debugCCPPMG_physicsL150 # user-defined experiment name
+#export PSLOT=CCPPMG_physicsL150 # user-defined experiment name
+export PSLOT=debugCCPPMG_physicsL128 # user-defined experiment name
+#export PSLOT=MG_physicsL128 # user-defined experiment name
+#export PSLOT=debugCCPPMG_physicsL64 # user-defined experiment name
+#export PSLOT=CCPPMG_physicsL64 # user-defined experiment name
 export CASE=C96         # cubed-sphere resolution, C96 currently only tested
 export CDATE=2017011906 # initial condition datetime
-export FHMAX=240         # length of free forecast (hours)
-export FHMAX=24         # length of free forecast (hours)
+#export FHMAX=240         # length of free forecast (hours)
+#export FHMAX=72         # length of free forecast (hours)
+export FHMAX=6         # length of free forecast (hours)
 export FHOUT=1         # forecast output frequency (hours)
 # user configurable directories (dir.config)
 export IC_DIR=/$ACCT_SCRATCH/NCEPDEV/$ACCT_DISK/$USER/ICS/fv3/${CDATE} # forecast initial conditions (fv3, nemsio w/ NSST)
@@ -25,9 +34,14 @@ export BASE_GSM=/scratch1/NCEPDEV/swpc/save/Adam.Kubaryk/fv3                    
 # computational settings (compute.config)
 export MODE=64bit       # dycore precision:   32bit, 64bit
 export TYPE=nh          # hydrostatic option: nh, hydro
-#export COMP=prod       # compiling mode:     debug, repro, prod
-export COMP=ccpp        # compiling mode:     debug, repro, prod
-#export COMP=multi_gases_test       # compiling mode:     debug, repro, prod
+#export COMP=prodMG            # compiling mode:     debug, repro, prod
+#export COMP=prodccppMG            # compiling mode:     debug, repro, prod
+export COMP=debugccppMG            # compiling mode:     debug, repro, prod
+#Increase memory for LEVS=149 with CCPP
+export layout_x=12
+export layout_y=16
+#export NODES=48  #Not used sez Adam K.
+#
 export HYPT=on          # hyperthreading:     on, off
 export mpiexec=`which mpirun`
 # post processing (stitch 6-tile grids into global netcdf, remap.config)
@@ -41,8 +55,10 @@ export DELTIM=225
 #export print_esmf=.true.
 
 # henry's settings for L150
+#export do_sat_adj=.true.
  export do_sat_adj=.false.
  export use_exact_qs=.true.
+ export tau=0.015
 #### artificial diffusion
  export nord=1
  export d4_bg=0.20
@@ -52,7 +68,6 @@ export DELTIM=225
 #### Sponge layer and Rayleigigh damping
 #### negative tau is for GSM type of Rayleigh
 #export tau=0.022
- export tau=0.015
 #export tau=0.100
 #export tau=0.200
 #export tau=0.300
@@ -87,19 +102,21 @@ export DELTIM=225
 #export tau_diff=0.0145
 
   export levr=90
- export CHGRES_ONLY=YES
+# export levr=63
+#export CHGRES_ONLY=YES
+ export CHGRES_ONLY=NO
  export IDVT=200
  export NTRAC=5
  export ncnst=$NTRAC
 
+#export nstf_name=2,0,0,0,0
 #### defult           air   sphum
 #export  RI_LIST=' 287.050,  461.50,  0.0, 0.0, 0.0, 0.0'
 #export CPI_LIST='1004.600, 1846.00,  0.0, 0.0, 0.0, 0.0'
 ##export CPI_LIST='1004.675, 1846.00,  0.0, 0.0, 0.0, 0.0'
 #### 3 tracers          air    sphum  liq_wat        o3         o        o2
-#export RI_LIST='  287.050,  461.50,     0.0, 173.2247 '
-#export CPI_LIST='1004.600, 1846.00,     0.0, 820.2391 '
+#export RI_LIST='  287.050,  461.50,     0.0, 173.2247, 0.0, 0.0 '
+#export CPI_LIST='1004.600, 1846.00,     0.0, 820.2391, 0.0, 0.0 '
 #### 5 tracers          air    sphum  liq_wat        o3         o        o2
- export RI_LIST='  295.3892,  461.50,     0.0, 173.2247,  519.674, 259.8370, '
- export CPI_LIST='1031.1083, 1846.00,     0.0, 820.2391, 1299.185, 918.0969, '
-
+export RI_LIST='  295.3892,  461.50,     0.0, 173.2247,  519.674, 259.8370, '
+export CPI_LIST='1031.1083, 1846.00,     0.0, 820.2391, 1299.185, 918.0969, '

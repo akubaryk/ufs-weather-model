@@ -2,7 +2,7 @@
 
 set -e
 
-# DEBUG switch on (1) or off (0)
+# CLEAN switch on (1) or off (0)
 CLEAN=1
 # DEBUG switch on (1) or off (0)
 DEBUG=0
@@ -50,7 +50,6 @@ homedir=${3:-`pwd`/../../..}
 # Build the various FV3 binaries
 cd $homedir/tests
 # Set debug flag
-DEBUG=1
 if [ "$DEBUG" -eq 1 ]; then
   debug_compile_option="DEBUG=Y"
   mode="debug"
@@ -66,9 +65,8 @@ else
 fi
 
 # set other options
-mode=""
-ccpp_option="CCPP=Y HYBRID=N STATIC=Y SUITES=FV3_GFS_v15plus";mode=$mode"ccpp"
-mode="ccpp"
+#ccpp_option="CCPP=Y HYBRID=N STATIC=Y SUITES=FV3_GFS_v15plus";mode=$mode"ccpp"
+ ccpp_option=""
 #multi_gases_option="MULTI_GASES=Y" ; mode=$mode"MG"
  multi_gases_option="MULTI_GASES=N"
 #molecular_diffusion_option="MOLECULAR_DIFFUSION=Y" ; mode=$mode"MD"
@@ -76,42 +74,12 @@ mode="ccpp"
 extra_options="$multi_gases_option $molecular_diffusion_option $ccpp_option"
 echo $mode
 
-# 32-bit non-hydrostatic
-#precision_option="32BIT=Y"
-#precision="32bit"
-#hydro_option="HYDRO=N"
-#hydro="nh"
-#compile_option="$debug_compile_option $openmp_compile_option $hydro_option $precision_option $extra_options "
-#./compile.sh $homedir/FV3 $arch "$compile_option" 1
-#cp $homedir/tests/fv3_1.exe ../NEMS/exe/fv3_gfs_${hydro}.${mode}.${precision}.${compiler}.x
-#rm $homedir/tests/fv3_1.exe
-
-# 32-bit hydrostatic
-#precision_option="32BIT=Y"
-#precision="32bit"
-#hydro_option="HYDRO=Y"
-#hydro="hydro"
-#compile_option="$debug_compile_option $openmp_compile_option $hydro_option $precision_option $extra_options "
-#./compile.sh $homedir/FV3 $arch "$compile_option" 1
-#cp $homedir/tests/fv3_1.exe ../NEMS/exe/fv3_gfs_${hydro}.${mode}.${precision}.${compiler}.x
-#rm $homedir/tests/fv3_1.exe
-
 # 64-bit non-hydrostatic
  precision_option="32BIT=N"
  precision="64bit"
  hydro_option="HYDRO=N"
  hydro="nh"
- compile_option="$debug_compile_option $openmp_compile_option $hydro_option $precision_option $extra_options "
+ compile_option="$debug_compile_option $openmp_compile_option $hydro_option $precision_option $extra_options"
  ./compile.sh $homedir/FV3 $arch "$compile_option" 1
  cp $homedir/tests/fv3_1.exe ../NEMS/exe/fv3_gfs_${hydro}.${mode}.${precision}.${compiler}.x
  rm $homedir/tests/fv3_1.exe
-
-# 64-bit hydrostatic
-#precision_option="32BIT=N"
-#precision="64bit"
-#hydro_option="HYDRO=Y"
-#hydro="hydro"
-#compile_option="$debug_compile_option $openmp_compile_option $hydro_option $precision_option $extra_options "
-#./compile.sh $homedir/FV3 $arch "$compile_option" 1
-#cp $homedir/tests/fv3_1.exe ../NEMS/exe/fv3_gfs_${hydro}.${mode}.${precision}.${compiler}.x
-#rm $homedir/tests/fv3_1.exe

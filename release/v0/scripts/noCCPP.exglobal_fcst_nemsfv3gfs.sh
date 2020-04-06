@@ -411,7 +411,8 @@ if [ $VERBOSE = YES ] ; then cat model_configure ; fi
 
 
 # ----- move following back into atmos_model_nml while CCPP is on -----
-# ccpp_suite = 'FV3_GFS_2017_fv3wam'
+# ccpp_suite = 'FV3_GFS_v15plus'
+# ccpp_suite = 'FV3_GFS_2017'
 # -------------------------------------------------------------------
 
 cat > input.nml <<EOF
@@ -429,7 +430,6 @@ cat > input.nml <<EOF
   chksum_debug = $chksum_debug
   dycore_only = $dycore_only
   fdiag = ${fdiag:-$FHOUT}
-  ccpp_suite = 'FV3_GFS_2017_fv3wam'
 /
 
 &diag_manager_nml

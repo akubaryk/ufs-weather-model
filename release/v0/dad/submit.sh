@@ -39,7 +39,8 @@ CONFIGDIR=$CONFIGDIR
 
 if [ $CHGRES != "NO" ] ; then
 module purge
-source $GLOBAL_WORKFLOW_DIR/modulefiles/fv3gfs/global_chgres.theia
+##source $GLOBAL_WORKFLOW_DIR/modulefiles/fv3gfs/global_chgres.theia
+source $GLOBAL_WORKFLOW_DIR/modulefiles/fv3gfs/global_chgres.hera
 export OUTDIR=$IC_DIR/IDVT${IDVT}/L${LEVS}/CASE_$CASE
 . $CHGRESWRAPPER
 fi
@@ -49,7 +50,7 @@ fi
 ##-------------------------------------------------------
 if [ ${CHGRES_ONLY:-"NO"} != "YES" ] ; then
 export VERBOSE=YES
-export CCPP_SUITE=$BASEDIR/FV3/ccpp/suites/suite_FV3_GFS_v15plus.xml
+export CCPP_SUITE=$BASEDIR/FV3/ccpp/suites/suite_FV3_GFS_2017_fv3wam.xml
 module purge
 module unuse ../../../NEMS/src/conf
 module use -a $BASEDIR/NEMS/src/conf

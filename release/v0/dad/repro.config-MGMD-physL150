@@ -7,16 +7,17 @@ export machine=theia    # theia, WCOSS_C, etc.
 # user configuration
 export ACCT_DISK=global           # storage account name 'swpc' 'global'
 export ACCT_SCRATCH=scratch1    # scratch space
-export ACCT_SLURM=nems            # compute account name 'fv3-cpu' 'nems'
-export QUEUE=batch             # batch, debug, etc.
-export WALLCLOCK=01:00:00       # wall clock time
+export ACCT_SLURM=fv3-cpu            # compute account name 'fv3-cpu' 'nems'
+export QUEUE=debug             # batch, debug, etc.
+export WALLCLOCK=00:30:00      #01:00:00       # wall clock time
 # configuration
 export LEVS=150        # 64? 150? 128? 65?
 export PSLOT=MGMD_physicsL150 # user-defined experiment name
 export CASE=C96         # cubed-sphere resolution, C96 currently only tested
 export CDATE=2017011906 # initial condition datetime
-export FHMAX=240         # length of free forecast (hours)
-export FHMAX=360           # length of free forecast (hours)
+#export FHMAX=240         # length of free forecast (hours)
+export FHMAX=72         # length of free forecast (hours)
+#export FHMAX=120         # length of free forecast (hours)
 export FHOUT=1         # forecast output frequency (hours)
 # user configurable directories (dir.config)
 export IC_DIR=/$ACCT_SCRATCH/NCEPDEV/$ACCT_DISK/$USER/ICS/fv3/${CDATE} # forecast initial conditions (fv3, nemsio w/ NSST)
@@ -26,7 +27,9 @@ export BASE_GSM=/scratch1/NCEPDEV/swpc/save/Adam.Kubaryk/fv3                    
 export MODE=64bit       # dycore precision:   32bit, 64bit
 export TYPE=nh          # hydrostatic option: nh, hydro
 #export COMP=prod                   # compiling mode:     debug, repro, prod
-export COMP=multi_gases-molecular_diffusion            # compiling mode:     debug, repro, prod
+#export COMP=multi_gases-molecular_diffusion            # compiling mode:     debug, repro, prod
+export COMP=prodMGMD            # compiling mode:     debug, repro, prod
+#export COMP=debugMGMD            # compiling mode:     debug, repro, prod
 #export COMP=multi_gases_test       # compiling mode:     debug, repro, prod
 export HYPT=on          # hyperthreading:     on, off
 export mpiexec=`which mpirun`
@@ -52,10 +55,10 @@ export DELTIM=225
 #### Sponge layer and Rayleigigh damping
 #### negative tau is for GSM type of Rayleigh
 #export tau=0.022
-#export tau=0.015
+ export tau=0.015
 #export tau=0.100
 #export tau=0.200
- export tau=0.300
+#export tau=0.300
  export rf_cutoff=2.e2
  export n_sponge=-1
  export d2_bg_k1=0.20
