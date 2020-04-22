@@ -91,7 +91,7 @@ CONFIGDIR=$CONFIGDIR
 . $CONFIGDIR/workflow.sh $1
 
 export DATA=${MEMDIR:-$ROTDIR/${PREINP:-"gfs"}.${yyyymmdd:-`echo $CDATE | cut -c1-8`}/${hh:-`echo $CDATE | cut -c9-10`}/${MEMCHAR:-""}}
-source $GLOBAL_WORKFLOW_DIR/modulefiles/fv3gfs/fre-nctools.hera
+source $GLOBAL_WORKFLOW_DIR/modulefiles/fv3gfs/fre-nctools.orion
 . $REMAPSH
 
 exit $status
