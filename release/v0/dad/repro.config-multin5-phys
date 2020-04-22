@@ -6,7 +6,6 @@ export machine=theia    # theia, WCOSS_C, etc.
 ## experiment settings
 # user configuration
 export ACCT_DISK=swpc           # storage account name
-export ACCT_SCRATCH=scratch1    # scratch space
 export ACCT_SLURM=swpc            # compute account name 'fv3-cpu' 'nems'
 export QUEUE=batch             # batch, debug, etc.
 export WALLCLOCK=00:30:00       # wall clock time
@@ -18,9 +17,9 @@ export CDATE=2017011906 # initial condition datetime
 export FHMAX=240         # length of free forecast (hours)
 export FHOUT=1         # forecast output frequency (hours)
 # user configurable directories (dir.config)
-export IC_DIR=/$ACCT_SCRATCH/NCEPDEV/$ACCT_DISK/noscrub/$USER/ICS/fv3/${CDATE} # forecast initial conditions (fv3, nemsio w/ NSST)
+export IC_DIR=/work/noaa/$ACCT_DISK/$USER/ICS/fv3/${CDATE} # forecast initial conditions (fv3, nemsio w/ NSST)
 export BASEDIR=`pwd`/../../..                                                       # model directory
-export BASE_GSM=/scratch1/NCEPDEV/swpc/save/Adam.Kubaryk/fv3                        # base folder for fix fields
+export BASE_GSM=/work/noaa/swpc/akubaryk/fv3                        # base folder for fix fields
 # computational settings (compute.config)
 export MODE=64bit       # dycore precision:   32bit, 64bit
 export TYPE=nh          # hydrostatic option: nh, hydro

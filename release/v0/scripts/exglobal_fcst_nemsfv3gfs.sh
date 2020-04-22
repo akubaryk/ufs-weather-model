@@ -171,7 +171,7 @@ export iaer=${iaer:-111}
 export ico2=${ico2:-2}
 
 $NLN $FIX_AM/global_solarconstant_noaa_an.txt  $DATA/solarconstant_noaa_an.txt
-#NLN $FIX_AM/global_o3prdlos.f77               $DATA/INPUT/global_o3prdlos.f77
+$NLN $FIX_AM/global_o3prdlos.f77               $DATA/global_o3prdlos.f77
 $NLN $FIX_AM/global_sfc_emissivity_idx.txt     $DATA/sfc_emissivity_idx.txt
 
 $NLN $FIX_AM/global_co2historicaldata_glob.txt $DATA/co2historicaldata_glob.txt

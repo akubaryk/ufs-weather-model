@@ -1,2 +1,2 @@
-module use -a /scratch2/NCEPDEV/nwprod/NCEPLIBS/modulefiles
-module load intel impi sigio sfcio landsfcutil nemsio nemsiogfs gfsio ip/v3.0.0 szip hdf4 hdf5 netcdf
+module use -a /work/noaa/swpc/akubaryk/ufs-weather-model/modulefiles/orion.intel
+module load fv3

@@ -23,7 +23,7 @@ cat >> temp_job.sh << EOF
 #SBATCH -t $WALLCLOCK
 # walltime should be a resolution and fcst length thing imo
 set -ax
-. /apps/lmod/lmod/init/sh
+. /apps/lmod/init/sh
 
 cd $SCRIPTSDIR
 CONFIGDIR=$CONFIGDIR
@@ -79,7 +79,7 @@ cat >> remap_job_$PSLOT.sh << EOF
 #SBATCH -n $REMAP_TASKS
 #SBATCH -t 00:20:00
 set -ax
-. /apps/lmod/lmod/init/sh
+. /apps/lmod/init/sh
 
 cd $SCRIPTSDIR
 CONFIGDIR=$CONFIGDIR

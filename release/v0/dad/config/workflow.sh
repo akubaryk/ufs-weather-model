@@ -1,9 +1,9 @@
 #!/bin/sh
 CONFIGDIR=`pwd`/config
-. /apps/lmod/lmod/init/sh
+. /apps/lmod/init/sh
 # modules
-module use -a ../../../NEMS/src/conf
-module load modules.nems
+module use -a ../../../modulefiles/orion.intel
+module load fv3
 ##-------------------------------------------------------
 ## configuration for FV3 model run
 ##-------------------------------------------------------
