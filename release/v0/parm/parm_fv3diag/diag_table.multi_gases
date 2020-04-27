@@ -92,11 +92,11 @@
  "dynamics",  "q50",         "q50",        "atmos_4xdaily", "all", .false.,  "none", 2
  "dynamics",  "q10",         "q10",        "atmos_4xdaily", "all", .false.,  "none", 2
 ####
- "dynamics",  "rh1000",      "rh1000",     "atmos_4xdaily", "all", .false.,  "none", 2
- "dynamics",  "rh850",       "rh850",      "atmos_4xdaily", "all", .false.,  "none", 2
- "dynamics",  "rh700",       "rh700",      "atmos_4xdaily", "all", .false.,  "none", 2
- "dynamics",  "rh500",       "rh500",      "atmos_4xdaily", "all", .false.,  "none", 2
- "dynamics",  "rh200",       "rh200",      "atmos_4xdaily", "all", .false.,  "none", 2
+#"dynamics",  "rh1000",      "rh1000",     "atmos_4xdaily", "all", .false.,  "none", 2
+#"dynamics",  "rh850",       "rh850",      "atmos_4xdaily", "all", .false.,  "none", 2
+#"dynamics",  "rh700",       "rh700",      "atmos_4xdaily", "all", .false.,  "none", 2
+#"dynamics",  "rh500",       "rh500",      "atmos_4xdaily", "all", .false.,  "none", 2
+#"dynamics",  "rh200",       "rh200",      "atmos_4xdaily", "all", .false.,  "none", 2
 # "dynamics",  "rh100",       "rh100",      "atmos_4xdaily", "all", .false.,  "none", 2
 # "dynamics",  "rh50",        "rh50",       "atmos_4xdaily", "all", .false.,  "none", 2
 # "dynamics",  "rh10",        "rh10",       "atmos_4xdaily", "all", .false.,  "none", 2
