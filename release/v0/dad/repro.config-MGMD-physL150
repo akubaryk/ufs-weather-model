@@ -1,30 +1,32 @@
 #!/bin/sh -l
 
 ## machine settings
-export machine=theia    # theia, WCOSS_C, etc.
+export machine=orion    # theia, WCOSS_C, etc.
 
 ## experiment settings
 # user configuration
-export ACCT_DISK=swpc           # storage account name 'swpc' 'global'
-export ACCT_SLURM=swpc            # compute account name 'fv3-cpu' 'nems'
-export QUEUE=batch             # batch, debug, etc.
+export ACCT_DISK=fv3-cpu           # storage account name 'swpc' 'global'
+export ACCT_SLURM=fv3-cpu          # compute account name 'fv3-cpu' 'nems'
+                        # for orion, max 500 nodes and 8 hours; debug 20 nodes
+export PARTITION=orion  # orion(bunw), debug(bdw), bigmen(bduw), service(buw)
+export QUEUE=batch      # batch, debug(2/u 30m), urgent(1/p), novel, windfall.
 export WALLCLOCK=00:30:00       # wall clock time
 # configuration
-export LEVS=150        # 64? 150? 128? 65?
-export PSLOT=MGMD_physicsL150 # user-defined experiment name
+export LEVS=150         # 64? 150? 128? 65?
+export PSLOT=MGMDL150 # user-defined experiment name
 export CASE=C96         # cubed-sphere resolution, C96 currently only tested
 export CDATE=2017011906 # initial condition datetime
-export FHMAX=24         # length of free forecast (hours)
+export FHMAX=24          # length of free forecast (hours)
 export FHOUT=1           # length of free forecast (hours)
 # user configurable directories (dir.config)
-export IC_DIR=/work/noaa/$ACCT_DISK/$USER/ICS/fv3/${CDATE} # forecast initial conditions (fv3, nemsio w/ NSST)
+export IC_DIR=/work/noaa/swpc/akubaryk/ICS/fv3/${CDATE} # forecast initial conditions (fv3, nemsio w/ NSST)
 export BASEDIR=`pwd`/../../..                                                       # model directory
 export BASE_GSM=/work/noaa/swpc/akubaryk/fv3                        # base folder for fix fields
 # computational settings (compute.config)
 export MODE=64bit       # dycore precision:   32bit, 64bit
 export TYPE=nh          # hydrostatic option: nh, hydro
 #export COMP=prod                   # compiling mode:     debug, repro, prod
- export COMP=prodMG
+ export COMP=prodMGMD
 export HYPT=on          # hyperthreading:     on, off
 export mpiexec=`which mpirun`
 # post processing (stitch 6-tile grids into global netcdf, remap.config)
@@ -72,7 +74,7 @@ export DELTIM=225
 
 #export CHGRES_ONLY=YES
  export IDVT=200
- export NTRAC=10
+ export NTRAC=5
  export ncnst=$NTRAC
 
 #### defult           air   sphum

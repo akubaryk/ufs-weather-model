@@ -64,6 +64,7 @@ export LEVS=${LEVS:-65}
 # Utilities
 export NCP=${NCP:-"/bin/cp -p"}
 export NLN=${NLN:-"/bin/ln -sf"}
+export NRM=${NRM:-"/bin/rm -rf"}
 export SEND=${SEND:-"YES"}   #move final result to rotating directory
 export ERRSCRIPT=${ERRSCRIPT:-'eval [[ $err = 0 ]]'}
 export NDATE=${NDATE:-$NWPROD/util/exec/ndate}
@@ -410,7 +411,7 @@ if [ $VERBOSE = YES ] ; then cat model_configure ; fi
 
 
 # ----- move following back into atmos_model_nml while CCPP is on -----
-# ccpp_suite = 'FV3_GFS_v15plus'
+# ccpp_suite = 'FV3_GFS_2017_fv3wam'
 # -------------------------------------------------------------------
 
 cat > input.nml <<EOF
@@ -697,6 +698,7 @@ if [ $VERBOSE = YES ] ; then cat input.nml ; fi
 #------------------------------------------------------------------
 # run the executable
 cd $DATA
+$NRM $FCSTEXEC
 $NCP $FCSTEXECDIR/$FCSTEXEC $DATA/.
 $FCST_LAUNCHER ./$FCSTEXEC 1>&1 2>&2
 

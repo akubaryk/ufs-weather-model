@@ -10,7 +10,7 @@ DEBUG=0
 OPENMP=1
 
 # List of valid/tested machines
-valid_machines=(hera theia cheyenne macosx linux wcoss_cray wcoss_phase1 wcoss_phase2 jet gaea orion)
+valid_machines=(hera orion cheyenne macosx linux wcoss_cray wcoss_phase1 wcoss_phase2 jet gaea orion)
 valid_compilers=(intel pgi gnu)
 
 function usage   {
@@ -33,7 +33,7 @@ if [[ $1 = "help" ]] ; then usage; fi
 if [[ $# -lt 2 ]];  then usage; fi
 machine=${1}
 compiler=${2}
-if [[ ${machine} == hera || ${machine} == theia || ${machine} == cheyenne || ${machine} == macosx || ${machine} == linux || ${machine} == orion ]]; then
+if [[ ${machine} == hera || ${machine} == orion || ${machine} == cheyenne || ${machine} == macosx || ${machine} == linux || ${machine} == orion ]]; then
   arch=${machine}.${compiler}
 elif [[ ${machine} == wcoss_cray || ${machine} == wcoss_phase1 || ${machine} == wcoss_phase2 || ${machine} == jet || ${machine} == gaea ]]; then
   if [[ ${compiler} == intel ]]; then
@@ -66,13 +66,18 @@ fi
 
 # set other options
 
-#ccpp_option="CCPP=Y HYBRID=N STATIC=Y SUITES=FV3_GFS_v15plus" ;  mode=$mode"ccpp"
- ccpp_option=""
+ extra_options=""
+
+#ccpp_option="CCPP=Y HYBRID=N STATIC=Y SUITES=FV3_GFS_2017_fv3wam"; mode=$mode"ccpp"
+#extra_options=$extra_options" "$ccpp_option
+
  multi_gases_option="MULTI_GASES=Y" ; mode=$mode"MG"
-#multi_gases_option="MULTI_GASES=N"
-#molecular_diffusion_option="MOLECULAR_DIFFUSION=Y" ; mode=$mode"MD"
- molecular_diffusion_option="MOLECULAR_DIFFUSION=N"
- extra_options="$multi_gases_option $molecular_diffusion_option $ccpp_option"
+ extra_options=$extra_options" "$multi_gases_option
+
+ molecular_diffusion_option="MOLECULAR_DIFFUSION=Y" ; mode=$mode"MD"
+ extra_options=$extra_options" "$molecular_diffusion_option
+
+ echo $extra_options
  echo $mode
 
 # 32-bit non-hydrostatic

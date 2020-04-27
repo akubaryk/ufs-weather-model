@@ -121,6 +121,14 @@ ifeq ($(MULTI_GASES),Y)
 CPPDEFS += -DMULTI_GASES
 endif
 
+ifeq ($(MOLECULAR_DIFFUSION),Y)
+CPPDEFS += -DMOLECULAR_DIFFUSION
+endif
+
+ifeq ($(SW_DYNAMICS),Y)
+CPPDEFS += -DSW_DYNAMICS
+endif
+
 FFLAGS_OPT = -O2 -g -fno-range-check
 FFLAGS_REPRO = -O0 -g -fbacktrace -fno-range-check
 FFLAGS_DEBUG = -g -O0 -ggdb -fno-unsafe-math-optimizations -frounding-math -fsignaling-nans -ffpe-trap=invalid,zero,overflow -fbounds-check -fbacktrace -fno-range-check -Wall

@@ -18,7 +18,8 @@ cat >> temp_job.sh << EOF
 #SBATCH -J $PSLOT
 #SBATCH -o %x.o%j
 #SBATCH -A $ACCT_SLURM
-#SBATCH -q $QUEUE
+#SBATCH -p $PARTITION 
+#SBATCH -q $QUEUE 
 #SBATCH -n $tasks --ntasks-per-node=$task_per_node
 #SBATCH -t $WALLCLOCK
 # walltime should be a resolution and fcst length thing imo
@@ -101,6 +102,6 @@ EOF
 sbatch < temp_job.sh
 
 # remove temp job file
-rm -f temp_job.sh
+#rm -f temp_job.sh
 
 exit
