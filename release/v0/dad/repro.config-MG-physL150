@@ -1,33 +1,30 @@
 #!/bin/sh -l
 
 ## machine settings
-export machine=orion    # theia, WCOSS_C, etc.
+export machine=theia    # theia, WCOSS_C, etc.
 
 ## experiment settings
 # user configuration
 export ACCT_DISK=fv3-cpu           # storage account name 'swpc' 'global'
-export ACCT_SLURM=fv3-cpu          # compute account name 'fv3-cpu' 'nems'
-                        # for orion, max 500 nodes and 8 hours; debug 20 nodes
-export PARTITION=orion  # orion(bunw), debug(bdw), bigmen(bduw), service(buw)
-export QUEUE=batch      # batch, debug(2/u 30m), urgent(1/p), novel, windfall.
+export ACCT_SLURM=fv3-cpu            # compute account name 'fv3-cpu' 'nems'
+export QUEUE=batch             # batch, debug, etc.
 export WALLCLOCK=00:30:00       # wall clock time
 # configuration
-export LEVS=150         # 64? 150? 128? 65?
-export PSLOT=MGMDL150 # user-defined experiment name
+export LEVS=150        # 64? 150? 128? 65?
+export PSLOT=MGL150 # user-defined experiment name
 export CASE=C96         # cubed-sphere resolution, C96 currently only tested
 export CDATE=2017011906 # initial condition datetime
-export FHMAX=24          # length of free forecast (hours)
+export FHMAX=24         # length of free forecast (hours)
 export FHOUT=1           # length of free forecast (hours)
 # user configurable directories (dir.config)
-export IC_DIR=/work/noaa/nems/hjuang/ICS/fv3/${CDATE} # forecast initial conditions (fv3, nemsio w/ NSST)
+export IC_DIR=/work/noaa/swpc/akubaryk/ICS/fv3/${CDATE} # forecast initial conditions (fv3, nemsio w/ NSST)
 export BASEDIR=`pwd`/../../..                                                       # model directory
-#export BASE_GSM=/work/noaa/swpc/akubaryk/fv3                        # base folder for fix fields
- export BASE_GSM=/work/noaa/nems/hjuang/fv3                        # base folder for fix fields
+export BASE_GSM=/work/noaa/swpc/akubaryk/fv3                        # base folder for fix fields
 # computational settings (compute.config)
 export MODE=64bit       # dycore precision:   32bit, 64bit
 export TYPE=nh          # hydrostatic option: nh, hydro
 #export COMP=prod                   # compiling mode:     debug, repro, prod
- export COMP=prodMGMD
+ export COMP=prodMG
 export HYPT=on          # hyperthreading:     on, off
 export mpiexec=`which mpirun`
 # post processing (stitch 6-tile grids into global netcdf, remap.config)
@@ -51,7 +48,7 @@ export DELTIM=225
  export DO_VORT_DAMP=.true.
  export D_CON=1.
 #### Sponge layer and Rayleigigh damping
- export tau=0.010
+ export tau=0.020
  export rf_cutoff=2.e2
  export n_sponge=-1
  export d2_bg_k1=0.20
@@ -60,7 +57,7 @@ export DELTIM=225
 
 ##### molecular diffusion efolding day
  export md_impl=0
- export md_wait_hr=24.0
+ export md_wait_hr=2.0
  export tau_visc=0.50
  export tau_cond=0.50
  export tau_diff=0.50
@@ -86,9 +83,6 @@ export DELTIM=225
 #export RI_LIST='  287.050,  461.50,     0.0, 173.2247 '
 #export CPI_LIST='1004.600, 1846.00,     0.0, 820.2391 '
 #### 5 tracers          air    sphum  liq_wat        o3         o        o2
- export RI_LIST='  295.3892,  461.50,    0.0, 173.2247,  519.674, 259.8370, '
- export CPI_LIST='1031.1083, 1846.00,    0.0, 820.2391, 1299.185, 918.0969, '
- ### 5 tracers with default test noises as the same as full ri cpi
-#export RI_LIST='  295.3892,  461.50,    0.0, 173.2247,  519.674,   0.0   , '
-#export CPI_LIST='1031.1083, 1846.00,    0.0, 820.2391, 1299.185,   0.0   , '
+ export RI_LIST='  295.3892,  461.50,     0.0, 173.2247,  519.674, 259.8370, '
+ export CPI_LIST='1031.1083, 1846.00,     0.0, 820.2391, 1299.185, 918.0969, '
 
