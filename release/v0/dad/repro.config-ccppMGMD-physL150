@@ -1,7 +1,7 @@
 #!/bin/sh -l
 
 ## machine settings
-export machine=theia    # theia, WCOSS_C, etc.
+export machine=orion    # theia, WCOSS_C, etc.
 
 ## experiment settings
 # user configuration
@@ -12,16 +12,16 @@ export QUEUE=batch             # batch, debug, etc.
 export WALLCLOCK=00:30:00       # wall clock time
 # configuration
 export LEVS=150        # 64? 150? 128? 65?
-export PSLOT=ccppMGMD # user-defined experiment name
+export PSLOT=ccppMGMDL150 # user-defined experiment name
 export CASE=C96         # cubed-sphere resolution, C96 currently only tested
 export CDATE=2017011906 # initial condition datetime
 export FHMAX=120         # length of free forecast (hours)
 export FHMAX=24          # length of free forecast (hours)
 export FHOUT=1         # forecast output frequency (hours)
 # user configurable directories (dir.config)
-export IC_DIR=/work/noaa/swpc/akubaryk/ICS/fv3/${CDATE} # forecast initial conditions (fv3, nemsio w/ NSST)
-export BASEDIR=`pwd`/../../..                                                       # model directory
-export BASE_GSM=/work/noaa/swpc/akubaryk/fv3                        # base folder for fix fields
+ export IC_DIR=/work/noaa/global/hjuang/ICS/fv3/${CDATE} # forecast initial conditions (fv3, nemsio w/ NSST)
+ export BASEDIR=`pwd`/../../..                       # model directory
+ export BASE_GSM=/work/noaa/global/hjuang/fv3        # base folder for fix fields
 # computational settings (compute.config)
 export MODE=64bit       # dycore precision:   32bit, 64bit
 export TYPE=nh          # hydrostatic option: nh, hydro
