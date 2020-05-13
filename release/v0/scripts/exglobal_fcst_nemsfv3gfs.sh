@@ -429,6 +429,7 @@ cat > input.nml <<EOF
   chksum_debug = $chksum_debug
   dycore_only = $dycore_only
   fdiag = ${fdiag:-$FHOUT}
+  ccpp_suite = 'FV3_GFS_2017_fv3wam'
 /
 
 &diag_manager_nml

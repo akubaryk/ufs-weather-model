@@ -119,6 +119,14 @@ ifeq ($(MULTI_GASES),Y)
 CPPDEFS += -DMULTI_GASES
 endif
 
+ifeq ($(MOLECULAR_DIFFUSION),Y)
+CPPDEFS += -DMOLECULAR_DIFFUSION
+endif
+
+ifeq ($(IDEA_PHYS),Y)
+CPPDEFS += -DIDEA_PHYS
+endif
+
 FFLAGS_OPT = -O1
 FFLAGS_REPRO = -O1 -g -traceback
 FFLAGS_DEBUG = -g -O0 -Ktrap=fp -Mbounds -traceback
