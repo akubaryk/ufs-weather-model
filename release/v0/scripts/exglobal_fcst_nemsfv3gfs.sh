@@ -390,6 +390,20 @@ cat > model_configure <<EOF
   cpl:                     .false. 
   quilting:                .false.
   output_1st_tstep_rst:    .false.
+
+  num_files:               2
+  filename_base:           'atm' 'sfc'
+  output_grid:             gaussian_grid
+  output_file:             nemsio
+  write_nemsioflip:        .true.
+  write_fsyncflag:         .true.
+  imo:                     $LONB
+  jmo:                     $LATB
+
+  nfhout:                  3
+  nfhmax_hf:               120
+  nfhout_hf:               1
+  nsout:                   -1
 EOF
 if [ $VERBOSE = YES ] ; then cat model_configure ; fi
 
