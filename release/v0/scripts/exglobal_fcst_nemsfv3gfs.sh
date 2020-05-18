@@ -165,6 +165,11 @@ for n in `seq 1 $ntiles`; do
   $NLN $MEMDIR/nggps3d.tile${n}.nc       $DATA/.
 done
 
+for n in 0 `seq 1 $FHOUT_HF $FHMAX_HF` `seq 1 $FHOUT $FHMAX` ; do
+  $NLN $MEMDIR/atmf`printf %03d $n`.nemsio $DATA/.
+  $NLN $MEMDIR/sfcf`printf %03d $n`.nemsio $DATA/.
+done
+
 # GFS standard input data
 export iems=${iems:-1}
 export isol=${isol:-2}
@@ -380,7 +385,6 @@ cat > model_configure <<EOF
   nhours_fcst:             $FHMAX
   RUN_CONTINUE:            ${RUN_CONTINUE:-".false."}
   ENS_SPS:                 ${ENS_SPS:-".false."}
-
   dt_atmos:                $DELTIM    
   calendar:                ${calendar:-'julian'}
   memuse_verbose:          ${memuse_verbose:-".false."}
@@ -389,8 +393,24 @@ cat > model_configure <<EOF
   ncores_per_node:         $cores_per_node
   restart_interval:        ${restart_interval:-0}
   cpl:                     .false. 
-  quilting:                .false.
   output_1st_tstep_rst:    .false.
+
+  quilting:                $quilting
+  write_groups:            $write_groups
+  write_tasks_per_group:   $write_tasks_per_group
+  num_files:               2
+  filename_base:           'atm' 'sfc'
+  output_grid:             gaussian_grid
+  output_file:             nemsio
+  write_nemsioflip:        .true.
+  write_fsyncflag:         .true.
+  imo:                     $LONB
+  jmo:                     $LATB
+
+  nfhout:                  $FHOUT
+  nfhmax_hf:               $FHMAX_HF
+  nfhout_hf:               $FHOUT_HF
+  nsout:                   -1
 EOF
 if [ $VERBOSE = YES ] ; then cat model_configure ; fi
 

@@ -139,6 +139,8 @@
  "gfs_dyn",  "o3mr",        "o3mr",       "nggps3d",  "all",  .false.,  "none",  2
  "gfs_dyn",  "spfo2",       "spfo2",      "nggps3d",  "all",  .false.,  "none",  2
  "gfs_dyn",  "spfo",        "spfo",       "nggps3d",  "all",  .false.,  "none",  2
+ "gfs_dyn",  "o2mr",        "o2mr",       "nggps3d",  "all",  .false.,  "none",  2
+ "gfs_dyn",  "omr",         "omr",        "nggps3d",  "all",  .false.,  "none",  2
  "gfs_dyn",  "liq_wat",     "clwmr",      "nggps3d",  "all",  .false.,  "none",  2
  "gfs_dyn",  "pfhy",        "hypres",     "nggps3d",  "all",  .false.,  "none",  2
  "gfs_dyn",  "pfnh",        "nhpres",     "nggps3d",  "all",  .false.,  "none",  2
