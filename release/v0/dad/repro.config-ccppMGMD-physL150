@@ -19,9 +19,9 @@ export FHMAX=120         # length of free forecast (hours)
 export FHMAX=24          # length of free forecast (hours)
 export FHOUT=1         # forecast output frequency (hours)
 # user configurable directories (dir.config)
-export IC_DIR=/work/noaa/swpc/akubaryk/ICS/fv3/${CDATE} # forecast initial conditions (fv3, nemsio w/ NSST)
-export BASEDIR=`pwd`/../../..                                                       # model directory
-export BASE_GSM=/work/noaa/swpc/akubaryk/fv3                        # base folder for fix fields
+ export IC_DIR=/work/noaa/global/hjuang/ICS/fv3/${CDATE} # forecast initial conditions (fv3, nemsio w/ NSST)
+ export BASEDIR=`pwd`/../../..                       # model directory
+ export BASE_GSM=/work/noaa/global/hjuang/fv3        # base folder for fix fields
 # computational settings (compute.config)
 export MODE=64bit       # dycore precision:   32bit, 64bit
 export TYPE=nh          # hydrostatic option: nh, hydro

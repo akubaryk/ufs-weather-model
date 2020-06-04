@@ -5,7 +5,7 @@ export machine=orion    # theia, WCOSS_C, etc.
 
 ## experiment settings
 # user configuration
-export ACCT_DISK=global            # storage account name 'swpc' 'global'
+export ACCT_DISK=global           # storage account name 'swpc' 'global'
 export ACCT_SLURM=fv3-cpu          # compute account name 'fv3-cpu' 'nems'
                         # for orion, max 500 nodes and 8 hours; debug 20 nodes
 export PARTITION=orion  # orion(bunw), debug(bdw), bigmen(bduw), service(buw)
@@ -19,10 +19,9 @@ export CDATE=2017011906 # initial condition datetime
 export FHMAX=24          # length of free forecast (hours)
 export FHOUT=1           # length of free forecast (hours)
 # user configurable directories (dir.config)
-export IC_DIR=/work/noaa/nems/hjuang/ICS/fv3/${CDATE} # forecast initial conditions (fv3, nemsio w/ NSST)
-export BASEDIR=`pwd`/../../..                                                       # model directory
-#export BASE_GSM=/work/noaa/swpc/akubaryk/fv3                        # base folder for fix fields
- export BASE_GSM=/work/noaa/nems/hjuang/fv3                        # base folder for fix fields
+ export IC_DIR=/work/noaa/global/hjuang/ICS/fv3/${CDATE} # forecast initial conditions (fv3, nemsio w/ NSST)
+ export BASEDIR=`pwd`/../../..                     # model directory
+ export BASE_GSM=/work/noaa/global/hjuang/fv3      # base folder for fix fields
 # computational settings (compute.config)
 export MODE=64bit       # dycore precision:   32bit, 64bit
 export TYPE=nh          # hydrostatic option: nh, hydro
@@ -51,7 +50,7 @@ export DELTIM=225
  export DO_VORT_DAMP=.true.
  export D_CON=1.
 #### Sponge layer and Rayleigigh damping
- export tau=0.300 
+ export tau=0.300
  export rf_cutoff=2.e2
  export n_sponge=-1
  export d2_bg_k1=0.20
