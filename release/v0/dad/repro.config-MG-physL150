@@ -1,12 +1,13 @@
 #!/bin/sh -l
 
 ## machine settings
-export machine=theia    # theia, WCOSS_C, etc.
+export machine=orion    # theia, WCOSS_C, etc.
 
 ## experiment settings
 # user configuration
-export ACCT_DISK=fv3-cpu           # storage account name 'swpc' 'global'
+export ACCT_DISK=global            # storage account name 'swpc' 'global'
 export ACCT_SLURM=fv3-cpu            # compute account name 'fv3-cpu' 'nems'
+export PARTITION=orion             # batch, debug, etc.
 export QUEUE=batch             # batch, debug, etc.
 export WALLCLOCK=00:30:00       # wall clock time
 # configuration
@@ -17,9 +18,11 @@ export CDATE=2017011906 # initial condition datetime
 export FHMAX=24         # length of free forecast (hours)
 export FHOUT=1           # length of free forecast (hours)
 # user configurable directories (dir.config)
-export IC_DIR=/work/noaa/swpc/akubaryk/ICS/fv3/${CDATE} # forecast initial conditions (fv3, nemsio w/ NSST)
+# export IC_DIR=/work/noaa/swpc/akubaryk/ICS/fv3/${CDATE} # forecast initial conditions (fv3, nemsio w/ NSST)
+export IC_DIR=/work/noaa/global/hjuang/ICS/fv3/${CDATE} # forecast initial conditions (fv3, nemsio w/ NSST)
 export BASEDIR=`pwd`/../../..                                                       # model directory
-export BASE_GSM=/work/noaa/swpc/akubaryk/fv3                        # base folder for fix fields
+# export BASE_GSM=/work/noaa/swpc/akubaryk/fv3                        # base folder for fix fields
+export BASE_GSM=/work/noaa/global/hjuang/fv3                        # base folder for fix fields
 # computational settings (compute.config)
 export MODE=64bit       # dycore precision:   32bit, 64bit
 export TYPE=nh          # hydrostatic option: nh, hydro

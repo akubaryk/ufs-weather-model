@@ -1,7 +1,7 @@
 #!/bin/sh -l
 
 ## machine settings
-export machine=theia    # theia, WCOSS_C, etc.
+export machine=orion    # theia, WCOSS_C, etc.
 
 ## experiment settings
 # user configuration
