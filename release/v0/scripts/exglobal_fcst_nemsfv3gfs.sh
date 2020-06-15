@@ -203,23 +203,23 @@ export FNZORC=${FNZORC:-"igbp"}
 export FNALBC2=${FNALBC2:-"$FIX_AM/global_albedo4.1x1.grb"}
 export FNAISC=${FNAISC:-"$FIX_AM/CFSR.SEAICE.1982.2012.monthly.clim.grb"}
 export FNTG3C=${FNTG3C:-"$FIX_AM/global_tg3clim.2.6x1.5.grb"}
-# ---- 7
-#export FNTSFC=${FNTSFC:-"$FIX_AM/RTGSST.1982.2012.monthly.clim.grb"}
-#export FNVEGC=${FNVEGC:-"$FIX_AM/global_vegfrac.0.144.decpercent.grb"}
-#export FNALBC=${FNALBC:-"$FIX_AM/global_snowfree_albedo.bosu.t1534.3072.1536.rg.grb"}
-#export FNVETC=${FNVETC:-"$FIX_AM/global_vegtype.igbp.t1534.3072.1536.rg.grb"}
-#export FNSOTC=${FNSOTC:-"$FIX_AM/global_soiltype.statsgo.t1534.3072.1536.rg.grb"}
-#export FNSMCC=${FNSMCC:-"$FIX_AM/global_soilmgldas.t1534.3072.1536.grb"}
-#export FNABSC=${FNABSC:-"$FIX_AM/global_mxsnoalb.uariz.t1534.3072.1536.rg.grb"}
+# ---- hera
+ export FNTSFC=${FNTSFC:-"$FIX_AM/RTGSST.1982.2012.monthly.clim.grb"}
+ export FNVEGC=${FNVEGC:-"$FIX_AM/global_vegfrac.0.144.decpercent.grb"}
+ export FNALBC=${FNALBC:-"$FIX_AM/global_snowfree_albedo.bosu.t1534.3072.1536.rg.grb"}
+ export FNVETC=${FNVETC:-"$FIX_AM/global_vegtype.igbp.t1534.3072.1536.rg.grb"}
+ export FNSOTC=${FNSOTC:-"$FIX_AM/global_soiltype.statsgo.t1534.3072.1536.rg.grb"}
+ export FNSMCC=${FNSMCC:-"$FIX_AM/global_soilmgldas.t1534.3072.1536.grb"}
+ export FNABSC=${FNABSC:-"$FIX_AM/global_mxsnoalb.uariz.t1534.3072.1536.rg.grb"}
+# ---- orion
+#export FNTSFC=${FNTSFC:-"$FIX_AM/CFSR.OISST.1999.2012.monthly.clim.grb"}
+#export FNVEGC=${FNVEGC:-"$FIX_AM/global_vegfrac.1x1.grb"}
+#export FNALBC=${FNALBC:-"$FIX_AM/global_snowfree_albedo.bosu.t574.1152.576.rg.grb"}
+#export FNVETC=${FNVETC:-"$FIX_AM/global_vegtype.igbp.t574.1152.576.rg.grb"}
+#export FNSOTC=${FNSOTC:-"$FIX_AM/global_soiltype.statsgo.t574.1152.576.rg.grb"}
+#export FNSMCC=${FNSMCC:-"$FIX_AM/global_soilmgldas.t574.1760.880.grb"}
+#export FNABSC=${FNABSC:-"$FIX_AM/global_mxsnoalb.uariz.t574.1152.576.rg.grb"}
 
- export FNTSFC=${FNTSFC:-"$FIX_AM/CFSR.OISST.1999.2012.monthly.clim.grb"}
- export FNVEGC=${FNVEGC:-"$FIX_AM/global_vegfrac.1x1.grb"}
- export FNALBC=${FNALBC:-"$FIX_AM/global_snowfree_albedo.bosu.t574.1152.576.rg.grb"}
- export FNVETC=${FNVETC:-"$FIX_AM/global_vegtype.igbp.t574.1152.576.rg.grb"}
- export FNSOTC=${FNSOTC:-"$FIX_AM/global_soiltype.statsgo.t574.1152.576.rg.grb"}
- export FNSMCC=${FNSMCC:-"$FIX_AM/global_soilmgldas.t574.1760.880.grb"}
- export FNABSC=${FNABSC:-"$FIX_AM/global_mxsnoalb.uariz.t574.1152.576.rg.grb"}
-# ------
 export FNMSKH=${FNMSKH:-"$FIX_AM/seaice_newland.grb"}
 export FNVMNC=${FNVMNC:-"$FIX_AM/global_shdmin.0.144x0.144.grb"}
 export FNVMXC=${FNVMXC:-"$FIX_AM/global_shdmax.0.144x0.144.grb"}
@@ -312,8 +312,8 @@ else
   export do_vort_damp=".true."
   if [ ${TYPE} = "nh" ]; then
     # non-hydrostatic
-    export hord_mt="6"
-    export hord_xx="6"
+    export hord_mt=${hord_mt:-"6"}
+    export hord_xx=${hord_xx:-"6"}
   else
     # hydrostatic
     export hord_mt="10"
@@ -519,7 +519,7 @@ cat > input.nml <<EOF
   fv_sg_adj = ${fv_sg_adj:-450}
   d2_bg = ${d2_bg:-0.}
   nord = ${nord:-3}
-  dddmp = ${ddmp:-0.2}
+  dddmp = ${dddmp:-0.2}
   d4_bg = ${d4_bg:-0.15}
   vtdm4 = ${VTDM4:-$vtdm4}
   delt_max = ${delt_max:-"0.002"}
@@ -535,7 +535,7 @@ cat > input.nml <<EOF
   hord_mt = $hord_mt
   hord_vt = $hord_xx
   hord_tm = $hord_xx
-  hord_dp = $hord_xx
+  hord_dp = ${hord_dp:-"6"}
   hord_tr = ${hord_tr:-"8"}
   adjust_dry_mass = ${adjust_dry_mass:-".false."}
   do_sat_adj = ${do_sat_adj:-".false."}

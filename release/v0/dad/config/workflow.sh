@@ -1,9 +1,18 @@
 #!/bin/sh
 CONFIGDIR=`pwd`/config
-. /apps/lmod/init/sh
+# --- orion
+#. /apps/lmod/init/sh
+# --- hera
+ . /apps/lmod/lmod/init/sh
+
 # modules
-module use -a ../../../modulefiles/orion.intel
-module load fv3
+# --- orion
+#module use -a ../../../modulefiles/orion.intel
+#module load fv3
+# --- hera
+ module use -a ../../../NEMS/src/conf
+ module load modules.nems
+
 ##-------------------------------------------------------
 ## configuration for FV3 model run
 ##-------------------------------------------------------
@@ -26,3 +35,4 @@ if [ $REMAP = "YES" ] ; then
 . $CONFIGDIR/remap.config
 fi
 . $CONFIGDIR/multi_gases.config
+

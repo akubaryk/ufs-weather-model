@@ -1,0 +1,114 @@
+#!/bin/sh -l
+
+## machine settings
+export machine=hera    # theia, WCOSS_C, etc.
+
+## experiment settings
+# user configuration
+export ACCT_DISK=global         # storage account name 'swpc' 'global'
+export ACCT_SCRATCH=scratch1    # scratch space
+export ACCT_SLURM=nems         # compute account name 'fv3-cpu' 'nems'
+export QUEUE=debug               # batch, debug, etc.
+export WALLCLOCK=00:30:00       #01:00:00       # wall clock time
+# configuration
+export LEVS=128        # 64? 150? 128? 65?
+export PSLOT=MDtestL128 # user-defined experiment name
+export CASE=C768         # cubed-sphere resolution, C96 currently only tested
+export CDATE=2017011906 # initial condition datetime
+export FHMAX=6           # length of free forecast (hours)
+export FHOUT=1         # forecast output frequency (hours)
+# user configurable directories (dir.config)
+export IC_DIR=/$ACCT_SCRATCH/NCEPDEV/$ACCT_DISK/$USER/ICS/fv3/${CDATE} # forecast initial conditions (fv3, nemsio w/ NSST)
+export BASEDIR=`pwd`/../../..                                      # model directory
+export BASE_GSM=/scratch1/NCEPDEV/swpc/save/Adam.Kubaryk/fv3       # base folder for fix fields
+# computational settings (compute.config)
+export MODE=64bit       # dycore precision:   32bit, 64bit
+export TYPE=nh          # hydrostatic option: nh, hydro
+export MONO=non-mono
+export COMP=prodMD          # compiling mode:     debug, repro, prod
+export HYPT=on          # hyperthreading:     on, off
+export mpiexec=`which mpirun`
+# post processing (stitch 6-tile grids into global netcdf, remap.config)
+export REMAP=YES        # YES or NO
+
+# namelist options can go below
+export DELTIM=150
+#export DELTIM=225
+#export DELTIM=1200
+#export adiabatic=.true.
+#export dycore_only=.true.
+#export do_sat_adj=.false.
+#export print_esmf=.true.
+
+# nemsio
+#export quilting=.false.
+#export write_group=0
+#export write_tasks_per_group=0
+ export quilting=.true.
+ export write_group=4
+ export write_tasks_per_group=60
+
+# henry's settings for L150
+ export do_sat_adj=.false.
+ export use_exact_qs=.true.
+#### artificial diffusion
+ export nord=1
+ #export d4_bg=0.20
+ export d4_bg=0.12
+ #export VTDM4=0.07
+ export VTDM4=0.02
+ export DO_VORT_DAMP=.true.
+ export D_CON=1.
+#### Rayleigigh damping
+#### negative tau is for GSM type of Rayleigh
+#### rf_cutoff is the control, 0 is off
+#### tau       is the weight in day
+#tau=0.3 for MG-only; 0.015 for MD
+#export rf_cutoff=2.e2
+#export rf_cutoff=7.5e2
+#export tau=10.0
+ export rf_cutoff=0.0
+ export tau=1.0e20
+
+#### Sponge layer
+#### n_sponge is the control. 0-2 is off
+#### fv_sg_adj is the weight in sec
+#export n_sponge=-1
+ export n_sponge=10
+ export fv_sg_adj=450
+
+export d2_bg_k1=0.15
+export d2_bg_k2=0.02
+export mountain=.true.
+export nord=2
+export dddmp=0.1
+export hord_mt=5
+export hord_xx=5
+export hord_dp=-5
+##### molecular diffusion efolding day
+##### positive in effect of day, 0.0 means off,
+### work with tau=0.2, 0.3
+##### -1.0 means no efolding but max effect
+ export md_impl=0
+ export md_wait_hr=0.0
+ export tau_visc=1.0
+ export tau_cond=1.0
+ export tau_diff=1.0
+
+#export levr=90
+export levr=127
+#export CHGRES_ONLY=YES
+ export IDVT=200
+ export NTRAC=5
+ export ncnst=$NTRAC
+
+#### defult           air   sphum
+#export  RI_LIST=' 287.050,  461.50,  0.0, 0.0, 0.0, 0.0'
+#export CPI_LIST='1004.600, 1846.00,  0.0, 0.0, 0.0, 0.0'
+##export CPI_LIST='1004.675, 1846.00,  0.0, 0.0, 0.0, 0.0'
+#### 3 tracers          air    sphum  liq_wat        o3         o        o2
+export RI_LIST='  287.050,  461.50,     0.0, 173.2247, 0.0, 0.0 '
+export CPI_LIST='1004.600, 1846.00,     0.0, 820.2391, 0.0, 0.0 '
+#### 5 tracers          air    sphum  liq_wat        o3         o        o2
+#export RI_LIST='  295.3892,  461.50,     0.0, 173.2247,  519.674, 259.8370, '
+#export CPI_LIST='1031.1083, 1846.00,     0.0, 820.2391, 1299.185, 918.0969, '

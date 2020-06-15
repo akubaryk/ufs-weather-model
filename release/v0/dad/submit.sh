@@ -18,13 +18,17 @@ cat >> temp_job.sh << EOF
 #SBATCH -J $PSLOT
 #SBATCH -o %x.o%j
 #SBATCH -A $ACCT_SLURM
-#SBATCH -p $PARTITION 
+# --- orion then turn on -p
+# #SBATCH -p $PARTITION 
 #SBATCH -q $QUEUE 
 #SBATCH -n $tasks --ntasks-per-node=$task_per_node
 #SBATCH -t $WALLCLOCK
 # walltime should be a resolution and fcst length thing imo
 set -ax
-. /apps/lmod/init/sh
+# ---- orion
+#. /apps/lmod/init/sh
+# ---- hera
+ . /apps/lmod/lmod/init/sh
 
 cd $SCRIPTSDIR
 CONFIGDIR=$CONFIGDIR
@@ -40,7 +44,11 @@ CONFIGDIR=$CONFIGDIR
 
 if [ $CHGRES != "NO" ] ; then
 module purge
-source $GLOBAL_WORKFLOW_DIR/modulefiles/fv3gfs/global_chgres.theia
+# ---- orion
+#source $GLOBAL_WORKFLOW_DIR/modulefiles/fv3gfs/global_chgres.theia
+# ---- hera
+ source $GLOBAL_WORKFLOW_DIR/modulefiles/fv3gfs/global_chgres.hera
+
 export OUTDIR=$IC_DIR/IDVT${IDVT}/L${LEVS}/CASE_$CASE
 . $CHGRESWRAPPER
 fi
@@ -80,7 +88,10 @@ cat >> remap_job_$PSLOT.sh << EOF
 #SBATCH -n $REMAP_TASKS
 #SBATCH -t 00:20:00
 set -ax
-. /apps/lmod/init/sh
+# ---- orion
+#. /apps/lmod/init/sh
+# ---- hera
+ . /apps/lmod/lmod/init/sh
 
 cd $SCRIPTSDIR
 CONFIGDIR=$CONFIGDIR
@@ -92,7 +103,11 @@ CONFIGDIR=$CONFIGDIR
 . $CONFIGDIR/workflow.sh $1
 
 export DATA=${MEMDIR:-$ROTDIR/${PREINP:-"gfs"}.${yyyymmdd:-`echo $CDATE | cut -c1-8`}/${hh:-`echo $CDATE | cut -c9-10`}/${MEMCHAR:-""}}
-source $GLOBAL_WORKFLOW_DIR/modulefiles/fv3gfs/fre-nctools.orion
+# ---- orion
+#source $GLOBAL_WORKFLOW_DIR/modulefiles/fv3gfs/fre-nctools.orion
+# ---- hera
+ source $GLOBAL_WORKFLOW_DIR/modulefiles/fv3gfs/fre-nctools.hera
+
 . $REMAPSH
 
 exit $status
