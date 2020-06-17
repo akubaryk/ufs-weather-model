@@ -8,21 +8,21 @@ export machine=hera    # theia, WCOSS_C, etc.
 export ACCT_DISK=global         # storage account name 'swpc' 'global'
 export ACCT_SCRATCH=scratch1    # scratch space
 export ACCT_SLURM=nems          # compute account name 'fv3-cpu' 'nems'
-export QUEUE=batch               # batch, debug, etc.
-export WALLCLOCK=03:00:00       #01:00:00       # wall clock time
+export QUEUE=debug               # batch, debug, etc.
+export WALLCLOCK=00:30:00       #01:00:00       # wall clock time
 # configuration
 export LEVS=128        # 64? 150? 128? 65?
-export PSLOT=test128 # user-defined experiment name
+export PSLOT=DF32L128 # user-defined experiment name
 export CASE=C768         # cubed-sphere resolution, C96 currently only tested
 export CDATE=2017011906 # initial condition datetime
-export FHMAX=24         # length of free forecast (hours)
+export FHMAX=6         # length of free forecast (hours)
 export FHOUT=1         # forecast output frequency (hours)
 # user configurable directories (dir.config)
 export IC_DIR=/$ACCT_SCRATCH/NCEPDEV/$ACCT_DISK/$USER/ICS/fv3/${CDATE} # forecast initial conditions (fv3, nemsio w/ NSST)
 export BASEDIR=`pwd`/../../..                                      # model directory
 export BASE_GSM=/scratch1/NCEPDEV/swpc/save/Adam.Kubaryk/fv3       # base folder for fix fields
 # computational settings (compute.config)
-export MODE=64bit       # dycore precision:   32bit, 64bit
+export MODE=32bit       # dycore precision:   32bit, 64bit
 export TYPE=nh          # hydrostatic option: nh, hydro
 export MONO=non-mono
 export COMP=prod              # compiling mode:     debug, repro, prod
@@ -41,12 +41,12 @@ export DELTIM=150
 #export print_esmf=.true.
 
 # nemsio
- export quilting=.false.
- export write_groups=0
- export write_tasks_per_group=0
-#export quilting=.true.
-#export write_groups=4
-#export write_tasks_per_group=60
+#export quilting=.false.
+#export write_groups=0
+#export write_tasks_per_group=0
+ export quilting=.true.
+ export write_groups=4
+ export write_tasks_per_group=60
 
 # henry's settings for L150
  export do_sat_adj=.false.
@@ -63,9 +63,10 @@ export DELTIM=150
 #### negative tau is for GSM type of Rayleigh
 #### rf_cutoff is the control; 0 : off
 #### tau       is the weight in day
- export rf_cutoff=7.5e2
-#export tau=10.0
- export tau=5.0
+#export rf_cutoff=7.5e2
+ export rf_cutoff=5.0e2
+ export tau=10.0
+#export tau=5.0
 ### spoge layer
 ### n_sponge  is the control; 0-2 is off
 ### fv_sg_adj is the weighting

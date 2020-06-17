@@ -74,8 +74,8 @@ fi
 #multi_gases_option="MULTI_GASES=Y" ; mode=$mode"MG"
 #extra_options=$extra_options" "$multi_gases_option
 
- molecular_diffusion_option="MOLECULAR_DIFFUSION=Y" ; mode=$mode"MD"
- extra_options=$extra_options" "$molecular_diffusion_option
+#molecular_diffusion_option="MOLECULAR_DIFFUSION=Y" ; mode=$mode"MD"
+#extra_options=$extra_options" "$molecular_diffusion_option
 
  echo $extra_options
  echo $mode

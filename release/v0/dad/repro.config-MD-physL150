@@ -5,24 +5,32 @@ export machine=orion    # theia, WCOSS_C, etc.
 
 ## experiment settings
 # user configuration
-export ACCT_DISK=fv3-cpu           # storage account name 'swpc' 'global'
-export ACCT_SLURM=fv3-cpu            # compute account name 'fv3-cpu' 'nems'
+export ACCT_DISK=global            # storage account name 'swpc' 'global'
+export ACCT_SLURM=nems  u            # compute account name 'fv3-cpu' 'nems'
+export ACCT_SCRATCH=scratch1    # scratch space
 export PARTITION=orion             # batch, debug, orion
-export QUEUE=batch             # batch, debug, etc.
+export QUEUE=debug             # batch, debug, etc.
 export WALLCLOCK=00:30:00       # wall clock time
 # configuration
 export LEVS=150        # 64? 150? 128? 65?
-export PSLOT=MDL150 # user-defined experiment name
+export PSLOT=MD32L150 # user-defined experiment name
 export CASE=C96         # cubed-sphere resolution, C96 currently only tested
 export CDATE=2017011906 # initial condition datetime
 export FHMAX=24         # length of free forecast (hours)
 export FHOUT=1           # length of free forecast (hours)
+
 # user configurable directories (dir.config)
-export IC_DIR=/work/noaa/swpc/akubaryk/ICS/fv3/${CDATE} # forecast initial conditions (fv3, nemsio w/ NSST)
-export BASEDIR=`pwd`/../../..                                                       # model directory
-export BASE_GSM=/work/noaa/swpc/akubaryk/fv3                        # base folder for fix fields
+# input directory
+#export IC_DIR=/work/noaa/swpc/akubaryk/ICS/fv3/${CDATE} 
+ export IC_DIR=/$ACCT_SCRATCH/NCEPDEV/$ACCT_DISK/$USER/ICS/fv3/${CDATE} 
+# base folder for fix fields
+#export BASE_GSM=/work/noaa/swpc/akubaryk/fv3    
+ export BASE_GSM=/scratch1/NCEPDEV/swpc/save/Adam.Kubaryk/fv3 
+# model directory
+export BASEDIR=`pwd`/../../..                    
+
 # computational settings (compute.config)
-export MODE=64bit       # dycore precision:   32bit, 64bit
+export MODE=32bit       # dycore precision:   32bit, 64bit
 export TYPE=nh          # hydrostatic option: nh, hydro
 #export COMP=prod                   # compiling mode:     debug, repro, prod
  export COMP=prodMD
@@ -49,24 +57,34 @@ export DELTIM=225
  export DO_VORT_DAMP=.true.
  export D_CON=1.
 #### Sponge layer and Rayleigigh damping
- export tau=0.300
+ export tau=0.010
+#export tau=0.300
  export rf_cutoff=2.e2
  export n_sponge=-1
+#export n_sponge=20
+ export fv_sg_adj=450
  export d2_bg_k1=0.20
  export d2_bg_k2=0.005
- export fv_sg_adj=1800
 
 ##### molecular diffusion efolding day
- export md_impl=0
- export md_wait_hr=2.0
- export tau_visc=0.50
- export tau_cond=0.50
- export tau_diff=0.50
+#export md_impl=0
+#export md_wait_hr=2.0
+#export tau_visc=0.50
+#export tau_cond=0.50
+#export tau_diff=0.50
 
 #export md_impl=1
 #export tau_visc=0.0145  
 #export tau_cond=0.0145
 #export tau_diff=0.0145
+
+# nemsio
+ export quilting=.false.
+ export write_groups=0
+ export write_tasks_per_group=0
+#export quilting=.true.
+#export write_groups=4
+#export write_tasks_per_group=60
 
 # ---- turn on for L150 
  export levr=90

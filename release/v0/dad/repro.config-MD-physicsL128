@@ -12,7 +12,7 @@ export QUEUE=debug               # batch, debug, etc.
 export WALLCLOCK=00:30:00       #01:00:00       # wall clock time
 # configuration
 export LEVS=128        # 64? 150? 128? 65?
-export PSLOT=MDtestL128 # user-defined experiment name
+export PSLOT=MD32v3L128 # user-defined experiment name
 export CASE=C768         # cubed-sphere resolution, C96 currently only tested
 export CDATE=2017011906 # initial condition datetime
 export FHMAX=6           # length of free forecast (hours)
@@ -22,7 +22,7 @@ export IC_DIR=/$ACCT_SCRATCH/NCEPDEV/$ACCT_DISK/$USER/ICS/fv3/${CDATE} # forecas
 export BASEDIR=`pwd`/../../..                                      # model directory
 export BASE_GSM=/scratch1/NCEPDEV/swpc/save/Adam.Kubaryk/fv3       # base folder for fix fields
 # computational settings (compute.config)
-export MODE=64bit       # dycore precision:   32bit, 64bit
+export MODE=32bit       # dycore precision:   32bit, 64bit
 export TYPE=nh          # hydrostatic option: nh, hydro
 export MONO=non-mono
 export COMP=prodMD          # compiling mode:     debug, repro, prod
@@ -45,7 +45,7 @@ export DELTIM=150
 #export write_group=0
 #export write_tasks_per_group=0
  export quilting=.true.
- export write_group=4
+ export write_groups=4
  export write_tasks_per_group=60
 
 # henry's settings for L150
@@ -91,7 +91,7 @@ export hord_dp=-5
 ##### -1.0 means no efolding but max effect
  export md_impl=0
  export md_wait_hr=0.0
- export tau_visc=1.0
+ export tau_visc=1.0e3
  export tau_cond=1.0
  export tau_diff=1.0
 
