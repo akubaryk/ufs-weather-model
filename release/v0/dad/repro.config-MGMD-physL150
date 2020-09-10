@@ -5,34 +5,49 @@ export machine=orion    # theia, WCOSS_C, etc.
 
 ## experiment settings
 # user configuration
+export ACCT_SCRATCH=scratch1       # storage account name 'scratch1'
 export ACCT_DISK=global           # storage account name 'swpc' 'global'
-export ACCT_SLURM=fv3-cpu          # compute account name 'fv3-cpu' 'nems'
+export ACCT_SLURM=nems          # compute account name 'fv3-cpu' 'nems'
                         # for orion, max 500 nodes and 8 hours; debug 20 nodes
 export PARTITION=orion  # orion(bunw), debug(bdw), bigmen(bduw), service(buw)
-export QUEUE=batch      # batch, debug(2/u 30m), urgent(1/p), novel, windfall.
-export WALLCLOCK=00:30:00       # wall clock time
+#export QUEUE=debug      # batch, debug(2/u 30m), urgent(1/p), novel, windfall.
+#export WALLCLOCK=00:30:00       # wall clock time
+ export QUEUE=batch      # batch, debug(2/u 30m), urgent(1/p), novel, windfall.
+ export WALLCLOCK=01:00:00       # wall clock time
+
 # configuration
 export LEVS=150         # 64? 150? 128? 65?
 export PSLOT=MGMDL150 # user-defined experiment name
 export CASE=C96         # cubed-sphere resolution, C96 currently only tested
 export CDATE=2017011906 # initial condition datetime
-export FHMAX=24          # length of free forecast (hours)
+export FHMAX=240         # length of free forecast (hours)
 export FHOUT=1           # length of free forecast (hours)
+
 # user configurable directories (dir.config)
- export IC_DIR=/work/noaa/global/hjuang/ICS/fv3/${CDATE} # forecast initial conditions (fv3, nemsio w/ NSST)
  export BASEDIR=`pwd`/../../..                     # model directory
- export BASE_GSM=/work/noaa/global/hjuang/fv3      # base folder for fix fields
+# orion
+#export IC_DIR=/work/noaa/global/hjuang/ICS/fv3/${CDATE} 
+#export BASE_GSM=/work/noaa/global/hjuang/fv3      # base folder for fix fields
+# hera
+ export IC_DIR=/$ACCT_SCRATCH/NCEPDEV/$ACCT_DISK/$USER/ICS/fv3/${CDATE}
+ export BASE_GSM=/scratch1/NCEPDEV/swpc/save/Adam.Kubaryk/fv3
+
 # computational settings (compute.config)
 export MODE=64bit       # dycore precision:   32bit, 64bit
 export TYPE=nh          # hydrostatic option: nh, hydro
 #export COMP=prod                   # compiling mode:     debug, repro, prod
- export COMP=prodMGMD
+#export COMP=prodMGMD
+ export COMP=prodMGMDDDCA
+#export COMP=debugMGMD
+#export COMP=debugMG
+#export COMP=debug
 export HYPT=on          # hyperthreading:     on, off
 export mpiexec=`which mpirun`
 # post processing (stitch 6-tile grids into global netcdf, remap.config)
 export REMAP=YES        # YES or NO
 
 # namelist options can go below
+export fv_debug=.true.
 export DELTIM=225
 # ---- adiabatic run -------------------
 #export adiabatic=.true.
@@ -50,24 +65,22 @@ export DELTIM=225
  export DO_VORT_DAMP=.true.
  export D_CON=1.
 #### Sponge layer and Rayleigigh damping
- export tau=0.300
+#export tau=0.015
+#export tau=0.315
+ export tau=0.350
+#export tau=0.300
  export rf_cutoff=2.e2
  export n_sponge=-1
  export d2_bg_k1=0.20
  export d2_bg_k2=0.005
- export fv_sg_adj=1800
+ export fv_sg_adj=450
 
 ##### molecular diffusion efolding day
- export md_impl=0
  export md_wait_hr=2.0
+ export md_n_layer=149
  export tau_visc=0.50
  export tau_cond=0.50
  export tau_diff=0.50
-
-#export md_impl=1
-#export tau_visc=0.0145  
-#export tau_cond=0.0145
-#export tau_diff=0.0145
 
 # ---- turn on for L150 
  export levr=90

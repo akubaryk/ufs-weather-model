@@ -8,14 +8,16 @@ export machine=hera    # theia, WCOSS_C, etc.
 export ACCT_DISK=global         # storage account name 'swpc' 'global'
 export ACCT_SCRATCH=scratch1    # scratch space
 export ACCT_SLURM=nems         # compute account name 'fv3-cpu' 'nems'
-export QUEUE=debug               # batch, debug, etc.
-export WALLCLOCK=00:30:00       #01:00:00       # wall clock time
+#export QUEUE=batch               # batch, debug, etc.
+#export WALLCLOCK=03:00:00       #01:00:00       # wall clock time
+ export QUEUE=debug               # batch, debug, etc.
+ export WALLCLOCK=00:30:00       #01:00:00       # wall clock time
 # configuration
 export LEVS=128        # 64? 150? 128? 65?
-export PSLOT=MD32v3L128 # user-defined experiment name
+export PSLOT=MD32ime4L128 # user-defined experiment name
 export CASE=C768         # cubed-sphere resolution, C96 currently only tested
 export CDATE=2017011906 # initial condition datetime
-export FHMAX=6           # length of free forecast (hours)
+export FHMAX=24           # length of free forecast (hours)
 export FHOUT=1         # forecast output frequency (hours)
 # user configurable directories (dir.config)
 export IC_DIR=/$ACCT_SCRATCH/NCEPDEV/$ACCT_DISK/$USER/ICS/fv3/${CDATE} # forecast initial conditions (fv3, nemsio w/ NSST)
@@ -42,7 +44,7 @@ export DELTIM=150
 
 # nemsio
 #export quilting=.false.
-#export write_group=0
+#export write_groups=0
 #export write_tasks_per_group=0
  export quilting=.true.
  export write_groups=4
@@ -52,11 +54,10 @@ export DELTIM=150
  export do_sat_adj=.false.
  export use_exact_qs=.true.
 #### artificial diffusion
- export nord=1
  #export d4_bg=0.20
- export d4_bg=0.12
+  export d4_bg=0.12
  #export VTDM4=0.07
- export VTDM4=0.02
+  export VTDM4=0.02
  export DO_VORT_DAMP=.true.
  export D_CON=1.
 #### Rayleigigh damping
@@ -65,7 +66,7 @@ export DELTIM=150
 #### tau       is the weight in day
 #tau=0.3 for MG-only; 0.015 for MD
 #export rf_cutoff=2.e2
-#export rf_cutoff=7.5e2
+#export rf_cutoff=5.0e2
 #export tau=10.0
  export rf_cutoff=0.0
  export tau=1.0e20
@@ -76,6 +77,8 @@ export DELTIM=150
 #export n_sponge=-1
  export n_sponge=10
  export fv_sg_adj=450
+#export n_sponge=0
+#export fv_sg_adj=1.e20
 
 export d2_bg_k1=0.15
 export d2_bg_k2=0.02
@@ -89,11 +92,11 @@ export hord_dp=-5
 ##### positive in effect of day, 0.0 means off,
 ### work with tau=0.2, 0.3
 ##### -1.0 means no efolding but max effect
- export md_impl=0
+ export md_impl=1
  export md_wait_hr=0.0
- export tau_visc=1.0e3
- export tau_cond=1.0
- export tau_diff=1.0
+ export tau_visc=1.0e4
+ export tau_cond=1.0e4
+ export tau_diff=1.0e4
 
 #export levr=90
 export levr=127

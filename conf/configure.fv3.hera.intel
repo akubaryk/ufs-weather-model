@@ -110,12 +110,20 @@ ifeq ($(MOLECULAR_DIFFUSION),Y)
 CPPDEFS += -DMOLECULAR_DIFFUSION
 endif
 
-ifeq ($(SW_DYNAMICS),Y)
-CPPDEFS += -DSW_DYNAMICS
+ifeq ($(IDEA_PHYS),Y)
+CPPDEFS += -DIDEA_PHYS
 endif
 
-ifeq ($(MOLECULAR_DIFFUSION),Y)
-CPPDEFS += -DMOLECULAR_DIFFUSION
+ifeq ($(IDEA_CONV_ADJ),Y)
+CPPDEFS += -DIDEA_CONV_ADJ
+endif
+
+ifeq ($(DEEP_ATMOS_DYNAMICS),Y)
+CPPDEFS += -DDEEP_ATMOS_DYNAMICS
+endif
+
+ifeq ($(SW_DYNAMICS),Y)
+CPPDEFS += -DSW_DYNAMICS
 endif
 
 FFLAGS_OPT = -O2 -debug minimal -fp-model source -qoverride-limits -qopt-prefetch=3

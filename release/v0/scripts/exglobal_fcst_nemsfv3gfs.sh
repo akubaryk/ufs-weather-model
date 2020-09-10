@@ -279,14 +279,14 @@ if [ ${TYPE} = "nh" ]; then
   export hydrostatic=".false."
   export phys_hydrostatic=".false."     # can be tested
   export use_hydro_pressure=".false."   # can be tested
-  export consv_te="1."
+  export consv_te=${consv_te:-1.0}
 else
   # hydrostatic options
   export make_nh=".false."
   export hydrostatic=".true."
   export phys_hydrostatic=".false."     # will be ignored in hydro mode
   export use_hydro_pressure=".true."    # have to be .true. in hydro mode
-  export consv_te="0."
+  export consv_te=${consv_te:-0.0}
 fi
 
 # time step parameters in FV3
@@ -532,11 +532,11 @@ cat > input.nml <<EOF
   mountain = $mountain
   ncep_ic = ${ncep_ic:-".false."}
   d_con = ${D_CON:-$d_con}
-  hord_mt = $hord_mt
-  hord_vt = $hord_xx
-  hord_tm = $hord_xx
-  hord_dp = ${hord_dp:-"6"}
-  hord_tr = ${hord_tr:-"8"}
+  hord_mt = ${HORD_MT:-$hord_mt}
+  hord_vt = ${HORD_VT:-$hord_xx}
+  hord_tm = ${HORD_TM:-$hord_xx}
+  hord_dp = ${HORD_DP:-"6"}
+  hord_tr = ${HORD_TR:-"8"}
   adjust_dry_mass = ${adjust_dry_mass:-".false."}
   do_sat_adj = ${do_sat_adj:-".false."}
   consv_te = $consv_te
@@ -557,10 +557,10 @@ cat > input.nml <<EOF
 /
 
 &molecular_diffusion_nml
-  tau_visc = ${tau_visc:-0.0}
-  tau_cond = ${tau_cond:-0.0}
-  tau_diff = ${tau_diff:-0.0}
-  md_impl     = ${md_impl:-0}
+  tau_visc = ${tau_visc:-1.0}
+  tau_cond = ${tau_cond:-1.0}
+  tau_diff = ${tau_diff:-1.0}
+  md_n_layer  = ${md_n_layer:-10}
   md_wait_hr  = ${md_wait_hr:-0.0}
 /
 
@@ -677,7 +677,7 @@ cat > input.nml <<EOF
    knob_ugwp_dokdis  = 1
    knob_ugwp_ndx4lh  = 1
    knob_ugwp_version = 0
-   launch_level      = 25
+   launch_level      = ${launch_level:-25}
 /
 EOF
 

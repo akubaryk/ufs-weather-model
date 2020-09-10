@@ -117,6 +117,6 @@ EOF
 sbatch < temp_job.sh
 
 # remove temp job file
-#rm -f temp_job.sh
+ rm -f temp_job.sh
 
 exit

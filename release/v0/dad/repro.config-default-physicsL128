@@ -8,14 +8,16 @@ export machine=hera    # theia, WCOSS_C, etc.
 export ACCT_DISK=global         # storage account name 'swpc' 'global'
 export ACCT_SCRATCH=scratch1    # scratch space
 export ACCT_SLURM=nems          # compute account name 'fv3-cpu' 'nems'
-export QUEUE=debug               # batch, debug, etc.
-export WALLCLOCK=00:30:00       #01:00:00       # wall clock time
+ export QUEUE=batch               # batch, debug, etc.
+ export WALLCLOCK=03:00:00       #01:00:00       # wall clock time
+#export QUEUE=debug               # batch, debug, etc.
+#export WALLCLOCK=00:30:00       #01:00:00       # wall clock time
 # configuration
 export LEVS=128        # 64? 150? 128? 65?
-export PSLOT=DF32L128 # user-defined experiment name
+export PSLOT=DF32nRnSL128 # user-defined experiment name
 export CASE=C768         # cubed-sphere resolution, C96 currently only tested
 export CDATE=2017011906 # initial condition datetime
-export FHMAX=6         # length of free forecast (hours)
+export FHMAX=120       # length of free forecast (hours)
 export FHOUT=1         # forecast output frequency (hours)
 # user configurable directories (dir.config)
 export IC_DIR=/$ACCT_SCRATCH/NCEPDEV/$ACCT_DISK/$USER/ICS/fv3/${CDATE} # forecast initial conditions (fv3, nemsio w/ NSST)
@@ -37,7 +39,7 @@ export DELTIM=150
 #export DELTIM=1200
 #export adiabatic=.true.
 #export dycore_only=.true.
-#export do_sat_adj=.false.
+#export do_sat_adj=.true.
 #export print_esmf=.true.
 
 # nemsio
@@ -52,11 +54,10 @@ export DELTIM=150
  export do_sat_adj=.false.
  export use_exact_qs=.true.
 #### artificial diffusion
- export nord=1
  #export d4_bg=0.20
- export d4_bg=0.12
+  export d4_bg=0.12
  #export VTDM4=0.07
- export VTDM4=0.02
+  export VTDM4=0.02
  export DO_VORT_DAMP=.true.
  export D_CON=1.
 #### Rayleigigh damping
@@ -64,18 +65,22 @@ export DELTIM=150
 #### rf_cutoff is the control; 0 : off
 #### tau       is the weight in day
 #export rf_cutoff=7.5e2
- export rf_cutoff=5.0e2
- export tau=10.0
+#export rf_cutoff=5.0e2
+#export tau=10.0
+ export rf_cutoff=0.0
+ export tau=1.0e20
 #export tau=5.0
 ### spoge layer
 ### n_sponge  is the control; 0-2 is off
 ### fv_sg_adj is the weighting
- export n_sponge=10
- export fv_sg_adj=450
+#export n_sponge=10
+#export fv_sg_adj=450
+ export n_sponge=0
+ export fv_sg_adj=1.0e20
 
 export d2_bg_k1=0.15
 export d2_bg_k2=0.02
-export mountain=.true.
+export mountain=.false.
 export nord=2
 export dddmp=0.1
 export hord_mt=5
@@ -93,6 +98,7 @@ export hord_dp=-5
 
 #export levr=90
 export levr=127
+export launch_level=54
 #export CHGRES_ONLY=YES
  export IDVT=200
  export NTRAC=5
