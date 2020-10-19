@@ -560,7 +560,8 @@ cat > input.nml <<EOF
   tau_visc = ${tau_visc:-1.0}
   tau_cond = ${tau_cond:-1.0}
   tau_diff = ${tau_diff:-1.0}
-  md_n_layer  = ${md_n_layer:-10}
+  md_n_layers = ${md_n_layers-10}
+  md_n_repeat = ${md_n_repeat:-1}
   md_wait_hr  = ${md_wait_hr:-0.0}
 /
 

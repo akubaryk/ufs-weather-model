@@ -74,14 +74,14 @@ fi
  multi_gases_option="MULTI_GASES=Y" ; mode=$mode"MG"
  extra_options=$extra_options" "$multi_gases_option
 
- molecular_diffusion_option="MOLECULAR_DIFFUSION=Y" ; mode=$mode"MD"
- extra_options=$extra_options" "$molecular_diffusion_option
+#molecular_diffusion_option="MOLECULAR_DIFFUSION=Y" ; mode=$mode"MD"
+#extra_options=$extra_options" "$molecular_diffusion_option
 
- deep_atmos_option="DEEP_ATMOS_DYNAMICS=Y" ; mode=$mode"DD"
- extra_options=$extra_options" "$deep_atmos_option
+#deep_atmos_option="DEEP_ATMOS_DYNAMICS=Y" ; mode=$mode"DD"
+#extra_options=$extra_options" "$deep_atmos_option
 
- idea_conv_adj_option="IDEA_CONV_ADJ=Y" ; mode=$mode"CA"
- extra_options=$extra_options" "$idea_conv_adj_option
+#idea_conv_adj_option="IDEA_CONV_ADJ=Y" ; mode=$mode"CA"
+#extra_options=$extra_options" "$idea_conv_adj_option
 
  echo $extra_options
  echo $mode
@@ -112,7 +112,7 @@ fi
  hydro_option="HYDRO=N"
  hydro="nh"
  compile_option="$debug_compile_option $openmp_compile_option $hydro_option $precision_option $extra_options "
- ./compile.sh $homedir/FV3 $arch "$compile_option" 1 YES NO
+ ./compile.sh $homedir/FV3 $arch "$compile_option" 1 YES YES
  cp $homedir/tests/fv3_1.exe ../NEMS/exe/fv3_gfs_${hydro}.${mode}.${precision}.${compiler}.x
  rm $homedir/tests/fv3_1.exe
 

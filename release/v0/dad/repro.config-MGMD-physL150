@@ -37,9 +37,9 @@ export MODE=64bit       # dycore precision:   32bit, 64bit
 export TYPE=nh          # hydrostatic option: nh, hydro
 #export COMP=prod                   # compiling mode:     debug, repro, prod
 #export COMP=prodMGMD
- export COMP=prodMGMDDDCA
+#export COMP=prodMGMDDDCA
 #export COMP=debugMGMD
-#export COMP=debugMG
+ export COMP=debugMG
 #export COMP=debug
 export HYPT=on          # hyperthreading:     on, off
 export mpiexec=`which mpirun`
@@ -47,7 +47,7 @@ export mpiexec=`which mpirun`
 export REMAP=YES        # YES or NO
 
 # namelist options can go below
-export fv_debug=.true.
+#export fv_debug=.true.
 export DELTIM=225
 # ---- adiabatic run -------------------
 #export adiabatic=.true.
@@ -70,14 +70,15 @@ export DELTIM=225
  export tau=0.350
 #export tau=0.300
  export rf_cutoff=2.e2
- export n_sponge=-1
+ export n_sponge=148
  export d2_bg_k1=0.20
- export d2_bg_k2=0.005
+ export d2_bg_k2=0.08
  export fv_sg_adj=450
 
 ##### molecular diffusion efolding day
  export md_wait_hr=2.0
- export md_n_layer=149
+ export md_n_layers=100
+ export md_n_repeat=1
  export tau_visc=0.50
  export tau_cond=0.50
  export tau_diff=0.50
