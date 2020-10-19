@@ -1,6 +1,6 @@
 #!/bin/sh
 CONFIGDIR=`pwd`/config
-. /apps/lmod/init/sh
+. /apps/lmod/lmod/init/sh
 # modules
 module use -a ../../../modulefiles/orion.intel
 module load fv3

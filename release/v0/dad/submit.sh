@@ -23,7 +23,7 @@ cat >> temp_job.sh << EOF
 #SBATCH -t $WALLCLOCK
 # walltime should be a resolution and fcst length thing imo
 set -ax
-. /apps/lmod/init/sh
+. /apps/lmod/lmod/init/sh
 
 cd $SCRIPTSDIR
 CONFIGDIR=$CONFIGDIR
@@ -49,7 +49,7 @@ fi
 ##-------------------------------------------------------
 if [ ${CHGRES_ONLY:-"NO"} != "YES" ] ; then
 export VERBOSE=YES
-export CCPP_SUITE=$BASEDIR/FV3/ccpp/suites/suite_FV3_GFS_v15plus.xml
+#export CCPP_SUITE=$BASEDIR/FV3/ccpp/suites/suite_FV3_GFS_v15plus.xml
 module purge
 module unuse ../../../NEMS/src/conf
 module use -a $BASEDIR/NEMS/src/conf
@@ -79,7 +79,7 @@ cat >> remap_job_$PSLOT.sh << EOF
 #SBATCH -n $REMAP_TASKS
 #SBATCH -t 00:20:00
 set -ax
-. /apps/lmod/init/sh
+. /apps/lmod/lmod/init/sh
 
 cd $SCRIPTSDIR
 CONFIGDIR=$CONFIGDIR

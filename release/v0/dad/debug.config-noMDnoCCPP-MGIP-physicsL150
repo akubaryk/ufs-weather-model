@@ -1,0 +1,126 @@
+#!/bin/sh -l
+
+## machine settings
+export machine=orion    # theia, WCOSS_C, etc.
+
+## experiment settings
+# user configuration
+export ACCT_DISK=fv3-cpu        # storage account name 'swpc' 'global'
+export ACCT_SCRATCH=work        # scratch space
+export ACCT_SLURM=fv3-cpu       # compute account name 'fv3-cpu' 'nems'
+export QUEUE=debug              # batch, debug, etc.
+export WALLCLOCK=00:25:00       #01:00:00       # wall clock time
+# configuration
+export LEVS=150        # 64? 150? 128? 65?
+#export PSLOT=ReproIPD_IP_L150_27Apr2020 # user-defined experiment name
+export PSLOT=2020July16a_ # user-defined experiment name
+export CASE=C96         # cubed-sphere resolution, C96 currently only tested
+export CDATE=2017011906 # initial condition datetime
+export FHMAX=12        # length of free forecast (hours)
+export FHOUT=1         # forecast output frequency (hours)
+# user configurable directories (dir.config)
+export IC_DIR=/$ACCT_SCRATCH/noaa/swpc/akubaryk/ICS/fv3/${CDATE} # forecast initial conditions (fv3, nemsio w/ NSST)
+#export IC_DIR=/work/noaa/global/hjuang/ICS/fv3/${CDATE} # forecast initial conditions (fv3, nemsio w/ NSST)
+export BASEDIR=`pwd`/../../..                                      # model directory
+export BASE_GSM=/work/noaa/swpc/akubaryk/fv3       # base folder for fix fields
+# computational settings (compute.config)
+export MODE=64bit       # dycore precision:   32bit, 64bit
+export TYPE=nh          # hydrostatic option: nh, hydro
+#export COMP=prod               # compiling mode:     debug, repro, prod
+#export COMP=multi_gases-molecular_diffusion            # compiling mode:     debug, repro, prod
+#export COMP=prodMGMD          # compiling mode:     debug, repro, prod
+#export COMP=debugMGMD         # compiling mode:     debug, repro, prod
+#export COMP=debugMG           # compiling mode:     debug, repro, prod
+#export COMP=debug             # compiling mode:     debug, repro, prod
+#export COMP=prodMGIP             # compiling mode:     debug, repro, prod
+export COMP=debugMGIP             # compiling mode:     debug, repro, prod
+export quilting=.false.
+export write_groups=0
+export and write_tasks_per_group=0
+#export nth_f=1
+#export layout_x=12
+#export layout_y=16
+export HYPT=on          # hyperthreading:     on, off
+export mpiexec=`which mpirun`
+# post processing (stitch 6-tile grids into global netcdf, remap.config)
+export REMAP=YES        # YES or NO
+
+# namelist options can go below
+export DELTIM=225
+#export adiabatic=.true.
+#export dycore_only=.true.
+#export do_sat_adj=.false.
+#export print_esmf=.true.
+
+# henry's settings for L150
+ export do_sat_adj=.false.
+ export use_exact_qs=.true.
+#### artificial diffusion
+ export nord=1
+ export d4_bg=0.20
+ export VTDM4=0.07
+ export DO_VORT_DAMP=.true.
+ export D_CON=1.
+#### Sponge layer and Rayleigigh damping
+#### negative tau is for GSM type of Rayleigh
+#tau=0.3 for MG-only; 0.015 for MD
+#export tau=0.022
+#export tau=0.015
+#export tau=0.100
+#export tau=0.200
+#export tau=0.3
+ export tau=0.015
+#export tau=0.300   ## For testing IDEA_PHYS
+ export rf_cutoff=0.01e2
+#export rf_cutoff=2.e2
+ export n_sponge=-1
+ export d2_bg_k1=0.20
+ export d2_bg_k2=0.005
+ export fv_sg_adj=1800
+
+##### molecular diffusion efolding day
+##### positive in effect of day, 0.0 means off,
+### work with tau=0.2, 0.3
+##### -1.0 means no efolding but max effect
+ export md_impl=0
+ export md_wait_hr=2.0
+ export tau_visc=0.50
+ export tau_cond=0.50
+ export tau_diff=0.50
+
+### tau=0.2
+###### 0.00025 close to -0.050  ####### X after  46800
+###### 0.0012  close to -0.010  ####### OK with tau=0.2
+###### 0.0025  close to -0.005  ####### X after 356400
+###### 0.005   close to -0.0025 ####### X after 136800
+### tau=0.3
+###### 0.0008  close to -0.015  ####### OK with tau=0.3
+###### 0.0006  close to -0.020  ####### X after 363600
+###### 0.0003  close to -0.040  ####### X after 122400
+#export md_impl=1
+#export tau_visc=0.0145
+#export tau_cond=0.0145
+#export tau_diff=0.0145
+
+export levr=90
+#export CHGRES_ONLY=YES
+ export IDVT=200
+ export NTRAC=5
+ export ncnst=$NTRAC
+
+#SK2020Sep4
+export launch_level=24
+## For no gwd, activate next 3 lines
+#export do_gwd=.false.
+#export cnvgwd=.false.
+#export cdmbgwd='0,0,0,0'
+#### defult           air   sphum
+#export  RI_LIST=' 287.050,  461.50,  0.0, 0.0, 0.0, 0.0'
+#export CPI_LIST='1004.600, 1846.00,  0.0, 0.0, 0.0, 0.0'
+##export CPI_LIST='1004.675, 1846.00,  0.0, 0.0, 0.0, 0.0'
+#### 3 tracers          air    sphum  liq_wat        o3         o        o2
+#export RI_LIST='  287.050,  461.50,     0.0, 173.2247, 0.0, 0.0 '
+#export CPI_LIST='1004.600, 1846.00,     0.0, 820.2391, 0.0, 0.0 '
+#### 5 tracers          air    sphum  liq_wat        o3         o        o2
+export RI_LIST='  295.3892,  461.50,     0.0, 173.2247,  519.674, 259.8370, '
+export CPI_LIST='1031.1083, 1846.00,     0.0, 820.2391, 1299.185, 918.0969, '
